@@ -16,7 +16,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.inesafujitsu</groupId>
-			<artifactId>prototype-rest</artifactId>
+			<artifactId>prototype-web</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 

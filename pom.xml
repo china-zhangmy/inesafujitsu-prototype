@@ -20,9 +20,10 @@
 
 	<modules>
 		<module>prototype-boot</module>
-		<module>prototype-rest</module>
+		<module>prototype-web</module>
 		<module>prototype-service</module>
 		<module>prototype-persist</module>
+		<module>prototype-message</module>
 	</modules>
 
 	<dependencyManagement>
