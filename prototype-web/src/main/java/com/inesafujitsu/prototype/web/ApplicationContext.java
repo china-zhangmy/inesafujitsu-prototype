@@ -5,5 +5,5 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan({"com.inesafujitsu.prototype.web.webservice.config"})
-public class WebApplicationContext {
+public class ApplicationContext {
 }

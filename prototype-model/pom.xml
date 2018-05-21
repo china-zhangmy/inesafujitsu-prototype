@@ -9,16 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>prototype-service</artifactId>
+    <artifactId>prototype-model</artifactId>
     <packaging>jar</packaging>
 
-    <name>Prototype Service Module</name>
+    <name>Prototype Model Module</name>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.inesafujitsu</groupId>
-            <artifactId>prototype-persist</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
+
 </project>
