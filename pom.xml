@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.inesafujitsu</groupId>
-	<artifactId>prototype</artifactId>
+	<artifactId>${project.artifactId}</artifactId>
 	<version>${project.version}</version>
 	<packaging>pom</packaging>
 
-	<name>Prototype</name>
+	<name>Prototype Project</name>
 	<description>A prototype project for INEAS &amp; FUJITSU</description>
 
 	<properties>
@@ -16,16 +16,19 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<springframework.boot.version>2.0.2.RELEASE</springframework.boot.version>
+		<project.artifactId>prototype</project.artifactId>
 		<project.version>0.0.1-SNAPSHOT</project.version>
 	</properties>
 
 	<modules>
-		<module>prototype-boot</module>
-		<module>prototype-web</module>
-		<module>prototype-service</module>
-		<module>prototype-persist</module>
-		<module>prototype-message</module>
-		<module>prototype-model</module>
+		<module>${project.artifactId}-boot</module>
+		<module>${project.artifactId}-web</module>
+		<module>${project.artifactId}-service</module>
+		<module>${project.artifactId}-persist</module>
+		<module>${project.artifactId}-message</module>
+		<module>${project.artifactId}-model</module>
+		<module>${project.artifactId}-common</module>
+		<module>prototype-log</module>
 	</modules>
 
 	<dependencyManagement>
@@ -44,16 +47,28 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-complier-plugin</artifactId>
+				<version>3.5.3</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<showWarnings>true</showWarnings>
+				</configuration>
+			</plugin>
+
+			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${springframework.boot.version}</version>
-				<!--<executions>-->
-				<!--<execution>-->
-				<!--<goals>-->
-				<!--<goal>repackage</goal>-->
-				<!--</goals>-->
-				<!--</execution>-->
-				<!--</executions>-->
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

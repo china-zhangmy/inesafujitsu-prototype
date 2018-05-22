@@ -13,7 +13,19 @@
 
 	<name>Prototype Boot Module</name>
 
-	<dependencies>
+    <build>
+        <!--<resources>-->
+        <!--<resource>-->
+        <!--<directory>src/main/resources</directory>-->
+        <!--<filtering>true</filtering>-->
+        <!--</resource>-->
+        <!--</resources>-->
+        <!--<filters>-->
+        <!--<filter>D:\workspace\prototype\config\db.config</filter>-->
+        <!--</filters>-->
+    </build>
+
+    <dependencies>
 		<dependency>
 			<groupId>com.inesafujitsu</groupId>
 			<artifactId>prototype-web</artifactId>

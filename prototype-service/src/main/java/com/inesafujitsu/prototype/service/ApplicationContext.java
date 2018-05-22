@@ -1,5 +1,6 @@
 package com.inesafujitsu.prototype.service;
 
+import com.inesafujitsu.prototype.service.impl.HelloWorldServiceImpl;
 import com.inesafujitsu.prototype.service.impl.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,11 @@ public class ApplicationContext {
     @Bean
     public UserService userService() {
         return new UserServiceImpl();
+    }
+
+    @Bean
+    public HelloWorldService helloWorldService() {
+        return new HelloWorldServiceImpl();
     }
 
 }

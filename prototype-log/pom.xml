@@ -9,9 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>prototype-model</artifactId>
+    <artifactId>prototype-log</artifactId>
     <packaging>jar</packaging>
 
-    <name>Prototype Model Module</name>
+    <name>Prototype Log Module</name>
 
 </project>
