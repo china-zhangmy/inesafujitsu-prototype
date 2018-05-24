@@ -1,14 +1,16 @@
-package com.inesafujitsu.prototype.persist;
+package com.inesafujitsu.prototype.persist.context;
 
-import com.inesafujitsu.prototype.persist.ext.CustomVendorDatabaseIdProvider;
 import liquibase.integration.spring.SpringLiquibase;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
+import org.apache.ibatis.mapping.VendorDatabaseIdProvider;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 import javax.sql.DataSource;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 @Configuration
@@ -40,22 +42,12 @@ public class ApplicationContext {
     }
 
     @Bean
-    public DatabaseIdProvider databaseIdProvider() {
-        DatabaseIdProvider databaseIdProvider = new CustomVendorDatabaseIdProvider();
+    public DatabaseIdProvider databaseIdProvider() throws IOException {
+        DatabaseIdProvider databaseIdProvider = new VendorDatabaseIdProvider();
 
+        InputStream is = getClass().getClassLoader().getResourceAsStream("db_vendor.properties");
         Properties properties = new Properties();
-        properties.setProperty("MySQL", "mysql");
-        properties.setProperty("DB2", "db2");
-        properties.setProperty("Oracle", "oracle");
-        properties.setProperty("SQL Server", "mssql");
-        properties.setProperty("PostgreSQL", "postgresql");
-        properties.setProperty("Sybase_Enterprise", "sybase");
-        properties.setProperty("Sybase_Anywhere", "asany");
-        properties.setProperty("Apache_Derby", "derby");
-        properties.setProperty("H2", "h2");
-        properties.setProperty("Informix", "informix");
-        properties.setProperty("Firebird", "firebird");
-        properties.setProperty("SQLite", "sqlite");
+        properties.load(is);
 
         databaseIdProvider.setProperties(properties);
 

@@ -1,4 +1,4 @@
-package com.inesafujitsu.prototype.web.webservice.constant;
+package com.inesafujitsu.prototype.web.jersey.constant;
 
 public class ParaConstant {
 

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.inesafujitsu.prototype.persist.mapper.DepartmentMapper">
+    <resultMap id="resultMap" type="Department">
+        <id column="id" property="id" javaType="Long"/>
+        <result column="name" property="name" javaType="String"/>
+
+        <collection property="users" column="id" javaType="ArrayList" ofType="User" select="getUsers"/>
+    </resultMap>
+
+    <sql id="columnList">
+        id, name
+    </sql>
+
+    <select id="getAll" resultMap="resultMap">
+        SELECT
+        <include refid="columnList"/>
+        FROM department
+    </select>
+
+    <select id="getOne" parameterType="Long" resultMap="resultMap">
+        SELECT
+        <include refid="columnList"/>
+        FROM department
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="Department">
+       INSERT INTO user (name)
+       	VALUES (#{name})
+    </insert>
+
+    <update id="update" parameterType="User">
+        UPDATE user SET
+        <if test="name != null">name = #{name},</if>
+        WHERE
+        id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="Long">
+       DELETE FROM department WHERE id = #{id}
+    </delete>
+
+    <select id="getUsers" parameterType="Long" resultType="User">
+        SELECT * FROM user where department_id = #{id}
+    </select>
+
+</mapper>

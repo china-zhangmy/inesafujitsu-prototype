@@ -1,4 +1,4 @@
-package com.inesafujitsu.prototype.web.webservice.constant;
+package com.inesafujitsu.prototype.web.jersey.constant;
 
 public class PathConstant {
 
@@ -9,5 +9,8 @@ public class PathConstant {
 
     public static final String USER_RESOURCE_ROOT = "users";
     public static final String USER_RESOURCE_ONE = "{id}";
+
+    public static final String DEPARTMENT_RESOURCE_ROOT = "departments";
+    public static final String DEPARTMENT_RESOURCE_ONE = "{id}";
 
 }

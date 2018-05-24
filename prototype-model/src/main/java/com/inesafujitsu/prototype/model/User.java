@@ -1,24 +1,13 @@
 package com.inesafujitsu.prototype.model;
 
-import java.io.Serializable;
+public class User extends Entity {
 
-public class User implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    private Long id;
     private String name;
+    private String password;
     private Integer age;
     private String email;
     private Integer gender;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private Department department;
 
     public String getName() {
         return name;
@@ -26,6 +15,14 @@ public class User implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Integer getAge() {
@@ -50,5 +47,13 @@ public class User implements Serializable {
 
     public void setGender(Integer gender) {
         this.gender = gender;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }

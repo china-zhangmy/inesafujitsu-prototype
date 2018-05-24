@@ -12,7 +12,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserMapper userMapper;
 
-    public User getUser(Long id) {
+    public User getOne(Long id) {
         return userMapper.getOne(id);
     }
 }

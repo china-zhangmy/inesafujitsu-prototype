@@ -1,5 +1,9 @@
-package com.inesafujitsu.prototype.service;
+package com.inesafujitsu.prototype.service.context;
 
+import com.inesafujitsu.prototype.service.DepartmentService;
+import com.inesafujitsu.prototype.service.HelloWorldService;
+import com.inesafujitsu.prototype.service.UserService;
+import com.inesafujitsu.prototype.service.impl.DepartmentServiceImpl;
 import com.inesafujitsu.prototype.service.impl.HelloWorldServiceImpl;
 import com.inesafujitsu.prototype.service.impl.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +24,11 @@ public class ApplicationContext {
     @Bean
     public UserService userService() {
         return new UserServiceImpl();
+    }
+
+    @Bean
+    public DepartmentService departmentService() {
+        return new DepartmentServiceImpl();
     }
 
     @Bean

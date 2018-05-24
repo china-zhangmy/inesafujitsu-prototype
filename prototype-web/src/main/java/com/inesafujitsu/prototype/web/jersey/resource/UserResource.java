@@ -1,9 +1,9 @@
-package com.inesafujitsu.prototype.web.webservice.resource;
+package com.inesafujitsu.prototype.web.jersey.resource;
 
 import com.inesafujitsu.prototype.model.User;
 import com.inesafujitsu.prototype.service.UserService;
-import com.inesafujitsu.prototype.web.webservice.constant.ParaConstant;
-import com.inesafujitsu.prototype.web.webservice.constant.PathConstant;
+import com.inesafujitsu.prototype.web.jersey.constant.ParaConstant;
+import com.inesafujitsu.prototype.web.jersey.constant.PathConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.GET;
@@ -22,7 +22,7 @@ public class UserResource {
     @Path(PathConstant.USER_RESOURCE_ONE)
     @Produces(MediaType.APPLICATION_JSON)
     public User getUser(@PathParam(ParaConstant.PATH_PARAM_ID) Long id) {
-        return userService.getUser(id);
+        return userService.getOne(id);
     }
 
 }

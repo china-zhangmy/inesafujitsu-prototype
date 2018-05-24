@@ -1,7 +1,7 @@
-package com.inesafujitsu.prototype.web.webservice.resource;
+package com.inesafujitsu.prototype.web.jersey.resource;
 
 import com.inesafujitsu.prototype.service.HelloWorldService;
-import com.inesafujitsu.prototype.web.webservice.constant.PathConstant;
+import com.inesafujitsu.prototype.web.jersey.constant.PathConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.GET;

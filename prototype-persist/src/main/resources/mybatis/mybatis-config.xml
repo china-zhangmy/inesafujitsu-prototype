@@ -20,11 +20,4 @@
         <package name="com.inesafujitsu.prototype.model"/>
     </typeAliases>
 
-    <!--<databaseIdProvider type="com.inesafujitsu.prototype.persist.ext.CustomVendorDatabaseIdProviderovider">-->
-    <!--<property name="SQL Server" value="sqlserver"/>-->
-    <!--<property name="DB2" value="db2"/>-->
-    <!--<property name="Oracle" value="oracle"/>-->
-    <!--<property name="MySQL" value="mysql"/>-->
-    <!--</databaseIdProvider>-->
-
 </configuration>

@@ -28,7 +28,7 @@
 		<module>${project.artifactId}-message</module>
 		<module>${project.artifactId}-model</module>
 		<module>${project.artifactId}-common</module>
-		<module>prototype-log</module>
+		<module>${project.artifactId}-log</module>
 	</modules>
 
 	<dependencyManagement>
@@ -48,8 +48,8 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-complier-plugin</artifactId>
-				<version>3.5.3</version>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.7.0</version>
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
