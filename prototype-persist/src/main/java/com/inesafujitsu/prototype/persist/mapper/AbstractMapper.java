@@ -9,12 +9,12 @@ public interface AbstractMapper<T> {
 
     List<T> getAll();
 
-    T getOne(Long id);
+    T getOne(String id);
 
     void insert(T entity);
 
     void update(T entity);
 
-    void delete(Long id);
+    void delete(String id);
 
 }

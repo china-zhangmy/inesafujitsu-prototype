@@ -1,4 +1,4 @@
-package com.inesafujitsu.prototype.persist.mapper;
+package com.inesafujitsu.prototype.persist.mapper.impl;
 
 import org.apache.ibatis.annotations.Mapper;
 

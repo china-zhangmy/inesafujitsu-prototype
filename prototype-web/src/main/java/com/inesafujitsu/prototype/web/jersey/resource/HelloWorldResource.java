@@ -1,7 +1,7 @@
 package com.inesafujitsu.prototype.web.jersey.resource;
 
 import com.inesafujitsu.prototype.service.HelloWorldService;
-import com.inesafujitsu.prototype.web.jersey.constant.PathConstant;
+import com.inesafujitsu.prototype.web.jersey.support.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.GET;
@@ -9,7 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-@Path(PathConstant.HELLO_WORLD_RESOURCE_ROOT)
+@Path(Constants.RESOURCE_ROOT_HELLO_WORLD)
 public class HelloWorldResource {
 
     @Autowired
@@ -23,7 +23,7 @@ public class HelloWorldResource {
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
-    @Path(PathConstant.HELLO_WORLD_CHECK_DATABASE)
+    @Path(Constants.RESOURCE_CHECK_DATABASE)
     public String checkDatabase() {
         return helloWorldService.checkDatabase();
     }

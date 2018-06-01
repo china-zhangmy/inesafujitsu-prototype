@@ -1,6 +1,6 @@
 package com.inesafujitsu.prototype.service.impl;
 
-import com.inesafujitsu.prototype.persist.mapper.HelloWorldMapper;
+import com.inesafujitsu.prototype.persist.mapper.impl.HelloWorldMapper;
 import com.inesafujitsu.prototype.service.HelloWorldService;
 import org.springframework.beans.factory.annotation.Autowired;
 

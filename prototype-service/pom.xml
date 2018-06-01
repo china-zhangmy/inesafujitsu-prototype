@@ -20,6 +20,11 @@
             <artifactId>prototype-persist</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.inesafujitsu</groupId>
+            <artifactId>prototype-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>
