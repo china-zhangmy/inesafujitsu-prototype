@@ -1,15 +1,11 @@
 package com.inesafujitsu.prototype.service.context;
 
-import com.inesafujitsu.prototype.model.base.Mask;
-import com.inesafujitsu.prototype.model.base.MaskHistory;
-import com.inesafujitsu.prototype.service.AbstractMasterHistoryService;
-import com.inesafujitsu.prototype.service.DepartmentService;
-import com.inesafujitsu.prototype.service.HelloWorldService;
-import com.inesafujitsu.prototype.service.UserService;
-import com.inesafujitsu.prototype.service.impl.DefaultMasterHistoryServiceImpl;
-import com.inesafujitsu.prototype.service.impl.DepartmentServiceImpl;
-import com.inesafujitsu.prototype.service.impl.HelloWorldServiceImpl;
-import com.inesafujitsu.prototype.service.impl.UserServiceImpl;
+import com.inesafujitsu.prototype.model.business.Mask;
+import com.inesafujitsu.prototype.model.business.MaskHistory;
+import com.inesafujitsu.prototype.model.business.TransportBox;
+import com.inesafujitsu.prototype.model.business.TransportBoxHistory;
+import com.inesafujitsu.prototype.service.*;
+import com.inesafujitsu.prototype.service.impl.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -27,7 +23,7 @@ public class ApplicationContext {
     }
 
     @Bean
-    public AbstractMasterHistoryService<Mask, MaskHistory> maskService() {
+    public AbstractMasterHistoryService maskService() {
 
         return new DefaultMasterHistoryServiceImpl<Mask, MaskHistory>() {
 
@@ -43,6 +39,30 @@ public class ApplicationContext {
 
         };
 
+    }
+
+    @Bean
+    public AbstractMasterHistoryService transportBoxService() {
+
+        return new DefaultMasterHistoryServiceImpl<TransportBox, TransportBoxHistory>() {
+
+            @Override
+            public TransportBox buildMaster(Map<String, Object> args) {
+                return new TransportBox.Builder(args).build();
+            }
+
+            @Override
+            public TransportBoxHistory buildHistory(Map<String, Object> args) {
+                return new TransportBoxHistory.Builder(args).build();
+            }
+
+        };
+
+    }
+
+    @Bean
+    public RelationService relationService() {
+        return new RelationServiceImpl();
     }
 
     @Bean

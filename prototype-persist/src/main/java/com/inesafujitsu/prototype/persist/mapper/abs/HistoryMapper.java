@@ -1,6 +1,6 @@
-package com.inesafujitsu.prototype.persist.mapper;
+package com.inesafujitsu.prototype.persist.mapper.abs;
 
-import com.inesafujitsu.prototype.model.base.History;
+import com.inesafujitsu.prototype.model.business.History;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

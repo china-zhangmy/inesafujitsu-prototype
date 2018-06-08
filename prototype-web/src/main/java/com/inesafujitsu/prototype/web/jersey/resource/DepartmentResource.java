@@ -1,6 +1,6 @@
 package com.inesafujitsu.prototype.web.jersey.resource;
 
-import com.inesafujitsu.prototype.model.Department;
+import com.inesafujitsu.prototype.model.platform.Department;
 import com.inesafujitsu.prototype.service.DepartmentService;
 import com.inesafujitsu.prototype.web.jersey.support.Constants;
 import org.springframework.beans.factory.annotation.Autowired;

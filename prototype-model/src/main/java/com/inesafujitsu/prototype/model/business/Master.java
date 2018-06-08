@@ -1,4 +1,4 @@
-package com.inesafujitsu.prototype.model.base;
+package com.inesafujitsu.prototype.model.business;
 
 import com.inesafujitsu.prototype.model.Entity;
 

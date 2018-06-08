@@ -1,4 +1,6 @@
-package com.inesafujitsu.prototype.model;
+package com.inesafujitsu.prototype.model.platform;
+
+import com.inesafujitsu.prototype.model.Entity;
 
 public class User extends Entity {
 

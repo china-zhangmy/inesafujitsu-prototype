@@ -1,6 +1,6 @@
 package com.inesafujitsu.prototype.web.jersey.resource;
 
-import com.inesafujitsu.prototype.model.User;
+import com.inesafujitsu.prototype.model.platform.User;
 import com.inesafujitsu.prototype.service.UserService;
 import com.inesafujitsu.prototype.web.jersey.support.Constants;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.inesafujitsu.prototype.persist.mapper;
+package com.inesafujitsu.prototype.persist.mapper.abs;
 
 import org.apache.ibatis.annotations.Param;
 

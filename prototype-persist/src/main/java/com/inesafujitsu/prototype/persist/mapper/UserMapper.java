@@ -1,7 +1,7 @@
-package com.inesafujitsu.prototype.persist.mapper.impl;
+package com.inesafujitsu.prototype.persist.mapper;
 
-import com.inesafujitsu.prototype.model.User;
-import com.inesafujitsu.prototype.persist.mapper.AbstractMapper;
+import com.inesafujitsu.prototype.model.platform.User;
+import com.inesafujitsu.prototype.persist.mapper.abs.AbstractMapper;
 
 public interface UserMapper extends AbstractMapper<User> {
 

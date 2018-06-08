@@ -1,13 +1,11 @@
 package com.inesafujitsu.prototype.service.impl;
 
 import com.inesafujitsu.prototype.common.IdGenerator;
-import com.inesafujitsu.prototype.model.base.History;
-import com.inesafujitsu.prototype.model.base.Master;
-import com.inesafujitsu.prototype.persist.mapper.HistoryMapper;
-import com.inesafujitsu.prototype.persist.mapper.MasterMapper;
+import com.inesafujitsu.prototype.model.business.History;
+import com.inesafujitsu.prototype.model.business.Master;
+import com.inesafujitsu.prototype.persist.mapper.abs.HistoryMapper;
+import com.inesafujitsu.prototype.persist.mapper.abs.MasterMapper;
 import com.inesafujitsu.prototype.service.AbstractMasterHistoryService;
-import com.inesafujitsu.prototype.service.support.Operation;
-import com.inesafujitsu.prototype.service.support.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
@@ -55,7 +53,7 @@ public abstract class DefaultMasterHistoryServiceImpl<M extends Master, H extend
         String id = IdGenerator.generateId();
 
         args.put("id", id);
-        args.put("currIdx", 1);
+        args.put("currIdx", 0);
         args.put("createDate", new Date());
         args.put("createUser", "dummy_create_user");
 
@@ -88,44 +86,38 @@ public abstract class DefaultMasterHistoryServiceImpl<M extends Master, H extend
     }
 
     @Override
-    public M updateMaster(String id, String operator, Map<String, Object> masterMap) {
-
-        switch (Operation.lookup(operator)) {
-            case CHECK_OUT: {
-                masterMapper.lock(id, new Date(), "dummy_lock_user");
-                break;
-            }
-            case CHECK_IN: {
-                masterMapper.unlock(id);
-                break;
-            }
-            default: {
-                if (masterMap == null) {
-                    // TODO
-                }
-
-                masterMap = new HashMap<>(masterMap);
-
-                Master masterDb = getMaster(id);
-
-                masterMap.put("id", id);
-                masterMap.put("updateDate", new Date());
-                masterMap.put("updateUser", "dummy_update_user");
-                masterMap.put("currIdx", masterDb.getCurrIdx() + 1);
-
-                M master = buildMaster(masterMap);
-                masterMapper.update(master);
-
-                createHistory(master);
-            }
-        }
-
+    public M checkOutMaster(String id) {
+        masterMapper.lock(id, new Date(), "dummy_lock_user");
         return getMaster(id);
     }
 
     @Override
-    public boolean validateOperation(String operator) {
-        return Validator.validateOperation(operator);
+    public M checkInMaster(String id) {
+        masterMapper.unlock(id);
+        return getMaster(id);
+    }
+
+    @Override
+    public M updateMaster(String id, Map<String, Object> masterMap) {
+        if (masterMap == null) {
+            // TODO
+        }
+
+        masterMap = new HashMap<>(masterMap);
+
+        Master masterDb = getMaster(id);
+
+        masterMap.put("id", id);
+        masterMap.put("updateDate", new Date());
+        masterMap.put("updateUser", "dummy_update_user");
+        masterMap.put("currIdx", masterDb.getCurrIdx() + 1);
+
+        M master = buildMaster(masterMap);
+        masterMapper.update(master);
+
+        createHistory(master);
+
+        return getMaster(id);
     }
 
 }

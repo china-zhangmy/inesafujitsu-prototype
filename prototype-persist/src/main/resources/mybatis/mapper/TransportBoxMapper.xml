@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.inesafujitsu.prototype.persist.mapper.MaskMapper">
-    <resultMap id="resultMap" type="Mask">
+<mapper namespace="com.inesafujitsu.prototype.persist.mapper.TransportBoxMapper">
+    <resultMap id="resultMap" type="TransportBox">
         <id column="m_id" property="id" javaType="String"/>
         <result column="m_name" property="name" javaType="String"/>
         <result column="m_curr_idx" property="currIdx" javaType="Integer"/>
@@ -11,9 +11,9 @@
         <result column="m_update_user" property="updateUser" javaType="String"/>
         <result column="m_lock_date" property="lockDate" javaType="Date"/>
         <result column="m_lock_user" property="lockUser" javaType="String"/>
-        <result column="m_transport_box_rf_id" property="transportBoxRfId" javaType="String"/>
+        <result column="m_rf_id" property="rfId" javaType="String"/>
 
-        <collection property="histories" ofType="MaskHistory">
+        <collection property="histories" ofType="TransportBoxHistory">
             <id column="h_id" property="id" javaType="String"/>
             <result column="h_idx" property="idx" javaType="Integer"/>
             <result column="h_create_date" property="createDate" javaType="Date"/>
@@ -32,7 +32,7 @@
         m.update_user AS m_update_user,
         m.lock_date AS m_lock_date,
         m.lock_user AS m_lock_user,
-        m.transport_box_rf_id AS m_transport_box_rf_id
+        m.rf_id AS m_rf_id
     </sql>
 
     <sql id="columnList4HistoryWithPrefix">
@@ -46,7 +46,7 @@
     <select id="getAll" resultMap="resultMap">
         SELECT
         <include refid="columnList4MasterWithPrefix"/>
-        FROM m_mask m
+        FROM m_transport_box m
         ORDER BY m.update_date DESC, m.create_date DESC
     </select>
 
@@ -55,42 +55,42 @@
         <include refid="columnList4MasterWithPrefix"/>
         ,
         <include refid="columnList4HistoryWithPrefix"/>
-        FROM m_mask m, h_mask h
+        FROM m_transport_box m, h_transport_box h
         WHERE m.id = h.master_id
         AND m.id = #{id}
         ORDER BY h.create_date
     </select>
 
-    <insert id="insert" parameterType="Mask">
-       INSERT INTO m_mask (id, name, curr_idx, create_date, create_user, transport_box_rf_id)
-       	VALUES (#{id}, #{name}, #{currIdx}, #{createDate}, #{createUser}, #{transportBoxRfId})
+    <insert id="insert" parameterType="TransportBox">
+       INSERT INTO m_transport_box (id, name, curr_idx, create_date, create_user, rf_id)
+       	VALUES (#{id}, #{name}, #{currIdx}, #{createDate}, #{createUser}, #{rfId})
     </insert>
 
-    <update id="update" parameterType="Mask">
-        UPDATE m_mask
+    <update id="update" parameterType="TransportBox">
+        UPDATE m_transport_box
         <set>
             <if test="currIdx != null">curr_idx = #{currIdx},</if>
             <if test="updateDate != null">update_date = #{updateDate},</if>
             <if test="updateUser != null">update_user = #{updateUser},</if>
-            <if test="transportBoxRfId != null">transport_box_rf_id = #{transportBoxRfId},</if>
+            <if test="rfId != null">rf_id = #{rfId},</if>
         </set>
         WHERE id = #{id}
     </update>
 
     <update id="lock">
-        UPDATE m_mask
+        UPDATE m_transport_box
         SET lock_date = #{lockDate}, lock_user = #{lockUser}
         WHERE id = #{id}
     </update>
 
     <update id="unlock">
-        UPDATE m_mask
+        UPDATE m_transport_box
         SET lock_date = NULL, lock_user = NULL
         WHERE id = #{id}
     </update>
 
     <update id="delete">
-        DELETE m_mask
+        DELETE m_transport_box
         WHERE id = #{id}
     </update>
 

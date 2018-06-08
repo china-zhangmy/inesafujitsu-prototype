@@ -6,15 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.Path;
 
-@Path(Constants.RESOURCE_ROOT_MASK)
-public class MaskResource extends AbstractMasterHistoryResource {
+@Path(Constants.RESOURCE_ROOT_TRANSPORT_BOXES)
+public class TransportBoxResource extends AbstractMasterHistoryResource {
 
     @Autowired
-    AbstractMasterHistoryService maskService;
+    AbstractMasterHistoryService transportBoxService;
 
     @Override
     public AbstractMasterHistoryService getService() {
-        return maskService;
+        return transportBoxService;
     }
 
 }

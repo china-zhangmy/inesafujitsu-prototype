@@ -2,8 +2,8 @@ package com.inesafujitsu.prototype.service.support;
 
 public class Validator {
 
-    public static boolean validateOperation(String operator) {
-        return Operation.lookup(operator) != null;
+    public static boolean isValidUpdateOpt(String operator) {
+        return UpdateOpt.lookup(operator) != null;
     }
 
 }

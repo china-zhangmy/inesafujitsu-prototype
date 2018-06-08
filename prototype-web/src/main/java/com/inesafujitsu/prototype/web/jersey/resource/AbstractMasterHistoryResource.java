@@ -1,10 +1,11 @@
 package com.inesafujitsu.prototype.web.jersey.resource;
 
 import com.inesafujitsu.prototype.common.JsonUtils;
-import com.inesafujitsu.prototype.model.base.History;
-import com.inesafujitsu.prototype.model.base.Master;
 import com.inesafujitsu.prototype.service.AbstractMasterHistoryService;
+import com.inesafujitsu.prototype.service.support.UpdateOpt;
+import com.inesafujitsu.prototype.service.support.Validator;
 import com.inesafujitsu.prototype.web.jersey.support.Constants;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
@@ -18,60 +19,72 @@ public abstract class AbstractMasterHistoryResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Master> getAllMasters() {
+    public List getAllMasters() {
         return getService().getAllMasters();
     }
 
     @GET
     @Path(Constants.RESOURCE_ONE)
     @Produces(MediaType.APPLICATION_JSON)
-    public Master getMaster(@NotNull @PathParam(Constants.PATH_PARAM_ID) String id) {
+    public Object getMaster(@NotNull @PathParam(Constants.PATH_PARAM_ID) String id) {
         return getService().getMaster(id);
     }
 
     @GET
     @Path(Constants.RESOURCE_ONE_MASTER_ALL_HISTORIES)
     @Produces(MediaType.APPLICATION_JSON)
-    public List<History> getAllHistories(@NotNull @PathParam(Constants.PATH_PARAM_MASTER_ID) String masterId) {
+    public List getAllHistories(@NotNull @PathParam(Constants.PATH_PARAM_MASTER_ID) String masterId) {
         return getService().getAllHistories(masterId);
     }
 
     @GET
     @Path(Constants.RESOURCE_ONE_MASTER_ONE_HISTORY)
     @Produces(MediaType.APPLICATION_JSON)
-    public History getHistory(@NotNull @PathParam(Constants.PATH_PARAM_MASTER_ID) String masterId,
-                              @NotNull @PathParam(Constants.PATH_PARAM_IDX) Integer idx) {
+    public Object getHistory(@NotNull @PathParam(Constants.PATH_PARAM_MASTER_ID) String masterId,
+                             @NotNull @PathParam(Constants.PATH_PARAM_IDX) Integer idx) {
         return getService().getHistory(masterId, idx);
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Master createMask(@NotNull String body) {
-        Map maskMap = JsonUtils.jsonToMap(body);
+    public Object createMaster(@NotNull String body) {
+        Map masterMap = JsonUtils.jsonToMap(body);
 
-        if (maskMap == null) {
+        if (masterMap == null) {
             return null;
         }
 
-        return getService().createMaster(maskMap);
+        return getService().createMaster(masterMap);
     }
 
     @PUT
     @Path(Constants.RESOURCE_ONE)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Master updateMaster(@NotNull @PathParam(Constants.PATH_PARAM_ID) String id,
-                               @QueryParam(Constants.QUERY_PARAM_OPERATOR) String operator,
-                               String body) {
+    public Object updateMaster(@NotNull @PathParam(Constants.PATH_PARAM_ID) String id,
+                               String requestBody) {
 
-        if (getService().validateOperation(operator)) {
-            Map<String, Object> masterMap = JsonUtils.jsonToMap(body);
-
-            return getService().updateMaster(id, operator, masterMap);
+        if (StringUtils.isBlank(requestBody) || JsonUtils.jsonToMap(requestBody).isEmpty()) {
+            throw new RuntimeException("Not Allowed Operation");
         }
 
-        throw new RuntimeException();
+        Map<String, Object> requestBodyMap = JsonUtils.jsonToMap(requestBody);
+        String operator = (String) requestBodyMap.get("operator");
+
+        if (!Validator.isValidUpdateOpt(operator)) {
+            throw new RuntimeException("Not Allowed Operation");
+        }
+
+        switch (UpdateOpt.lookup(operator)) {
+            case CHECK_OUT:
+                return getService().checkOutMaster(id);
+            case CHECK_IN:
+                return getService().checkInMaster(id);
+            default:
+                Map<String, Object> masterMap = (Map<String, Object>) requestBodyMap.get("master");
+                return getService().updateMaster(id, masterMap);
+        }
     }
 
 }

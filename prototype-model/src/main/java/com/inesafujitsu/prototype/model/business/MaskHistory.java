@@ -1,4 +1,4 @@
-package com.inesafujitsu.prototype.model.base;
+package com.inesafujitsu.prototype.model.business;
 
 import java.util.Map;
 

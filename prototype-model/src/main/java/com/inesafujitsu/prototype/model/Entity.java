@@ -33,6 +33,7 @@ public abstract class Entity implements Serializable {
             try {
                 entity = clazz.newInstance();
             } catch (IllegalAccessException | InstantiationException e) {
+                //TODO
                 e.printStackTrace();
             }
 

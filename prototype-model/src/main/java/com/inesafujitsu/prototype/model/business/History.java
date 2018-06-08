@@ -1,11 +1,11 @@
-package com.inesafujitsu.prototype.model.base;
+package com.inesafujitsu.prototype.model.business;
 
 import com.inesafujitsu.prototype.model.Entity;
 
 import java.util.Date;
 import java.util.Map;
 
-public class History extends Entity {
+public abstract class History extends Entity {
 
     private Master master;
     private Integer idx;

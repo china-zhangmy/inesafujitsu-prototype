@@ -1,7 +1,7 @@
 package com.inesafujitsu.prototype.service.impl;
 
-import com.inesafujitsu.prototype.model.User;
-import com.inesafujitsu.prototype.persist.mapper.impl.UserMapper;
+import com.inesafujitsu.prototype.model.platform.User;
+import com.inesafujitsu.prototype.persist.mapper.UserMapper;
 import com.inesafujitsu.prototype.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 

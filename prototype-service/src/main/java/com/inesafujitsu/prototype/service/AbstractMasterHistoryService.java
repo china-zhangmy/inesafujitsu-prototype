@@ -1,7 +1,7 @@
 package com.inesafujitsu.prototype.service;
 
-import com.inesafujitsu.prototype.model.base.History;
-import com.inesafujitsu.prototype.model.base.Master;
+import com.inesafujitsu.prototype.model.business.History;
+import com.inesafujitsu.prototype.model.business.Master;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -22,7 +22,10 @@ public interface AbstractMasterHistoryService<M extends Master, H extends Histor
 
     H createHistory(M master);
 
-    boolean validateOperation(String operator);
+    M checkOutMaster(String id);
 
-    M updateMaster(String id, String operator, Map<String, Object> masterMap);
+    M checkInMaster(String id);
+
+    M updateMaster(String id, Map<String, Object> masterMap);
+
 }
