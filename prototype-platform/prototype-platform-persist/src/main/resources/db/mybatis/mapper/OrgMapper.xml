@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.inesafujitsu.prototype.platform.persist.mapper.OrgMapper">
+    <resultMap id="resultMap" type="Org">
+        <id column="id" property="id" javaType="String"/>
+        <result column="name" property="name" javaType="String"/>
+        <result column="descr" property="descr" javaType="String"/>
+        <result column="type_code" property="type" javaType="OrgType"
+                typeHandler="OrgTypeTypeHandler"/>
+        <result column="level" property="level" javaType="Integer"/>
+        <result column="uri" property="uri" javaType="String"/>
+
+        <association property="parent" resultMap="commonResultMap" columnPrefix="parent_"/>
+        <collection property="children" resultMap="commonResultMap" columnPrefix="child_"/>
+    </resultMap>
+
+    <resultMap id="commonResultMap" type="Org">
+        <id column="id" property="id" javaType="String"/>
+        <result column="name" property="name" javaType="String"/>
+        <result column="descr" property="descr" javaType="String"/>
+        <result column="type_code" property="type" javaType="OrgType"
+                typeHandler="OrgTypeTypeHandler"/>
+        <result column="level" property="level" javaType="Integer"/>
+        <result column="uri" property="uri" javaType="String"/>
+    </resultMap>
+
+    <sql id="columnListLazy">
+        id, name, descr, type_code, level, uri, parent_id
+    </sql>
+
+    <sql id="columnListEager">
+        self.id, self.name, self.descr, self.type_code, self.level, self.uri,
+        parent.id AS parent_id, parent.name AS parent_name, parent.descr AS parent_descr,
+        parent.type_code AS parent_type_code, parent.level AS parent_level, parent.uri AS parent_uri,
+        child.id AS child_id, child.name AS child_name, child.descr AS child_descr,
+        child.type_code AS child_type_code, child.level AS child_level, child.uri AS child_uri
+    </sql>
+
+    <select id="getAll" resultMap="resultMap">
+        SELECT
+        <include refid="columnListLazy"/>
+        FROM sys_org
+    </select>
+
+    <select id="getOne" parameterType="String" resultMap="resultMap">
+        SELECT
+        <include refid="columnListEager"/>
+        FROM sys_org self LEFT JOIN sys_org parent ON self.parent_id = parent.id
+        LEFT JOIN sys_org child ON self.id = child.parent_id
+        WHERE self.id = #{id}
+    </select>
+
+    <select id="findByUri" parameterType="String" resultMap="resultMap">
+        SELECT
+        <include refid="columnListEager"/>
+        FROM sys_org self LEFT JOIN sys_org parent ON self.parent_id = parent.id
+        LEFT JOIN sys_org child ON self.id = child.parent_id
+        WHERE self.uri = #{uri}
+    </select>
+
+    <insert id="insert" parameterType="Org">
+        INSERT INTO sys_org (<include refid="columnListLazy"/>)
+        VALUES (#{id}, #{name}, #{descr},
+        #{type, typeHandler=OrgTypeTypeHandler},
+        #{level}, #{uri}, #{parent.id})
+    </insert>
+
+    <update id="update" parameterType="Org">
+        UPDATE sys_org
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="descr != null">descr = #{descr},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="String">
+       DELETE FROM sys_org WHERE id = #{id}
+    </delete>
+
+</mapper>

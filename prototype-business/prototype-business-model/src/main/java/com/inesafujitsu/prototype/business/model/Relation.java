@@ -1,4 +1,4 @@
-package com.inesafujitsu.prototype.model.business;
+package com.inesafujitsu.prototype.business.model;
 
 public class Relation {
 
