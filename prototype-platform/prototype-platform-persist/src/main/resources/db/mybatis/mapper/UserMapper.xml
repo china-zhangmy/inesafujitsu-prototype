@@ -7,36 +7,76 @@
         <result column="password" property="password" javaType="String"/>
         <result column="age" property="age" javaType="Integer"/>
         <result column="email" property="email" javaType="String"/>
-        <result column="gender" property="gender" javaType="Integer"/>
+        <result column="gender" property="gender" javaType="Gender"
+                typeHandler="GenderTypeHandler"/>
 
+        <association property="org" resultMap="orgResultMap" columnPrefix="org_"/>
     </resultMap>
 
-    <sql id="columnList">
-        id, name, password, age, email, gender
+    <resultMap id="orgResultMap" type="Org">
+        <id column="id" property="id" javaType="String"/>
+        <result column="name" property="name" javaType="String"/>
+        <result column="descr" property="descr" javaType="String"/>
+        <result column="type_code" property="typeCode" javaType="String"/>
+        <result column="level" property="level" javaType="Integer"/>
+        <result column="uri" property="uri" javaType="String"/>
+    </resultMap>
+
+    <sql id="columnListLazy">
+        id,
+        name,
+        password,
+        age,
+        email,
+        gender,
+        org_uri
+    </sql>
+
+    <sql id="columnListEager">
+        user.id,
+        user.name,
+        user.password,
+        user.age,
+        user.email,
+        user.gender,
+        org.id AS org_id,
+        org.name AS org_name,
+        org.descr AS org_descr,
+        org.type_code AS org_type_code,
+        org.level AS org_level,
+        org.uri AS org_uri
     </sql>
 
     <select id="getAll" resultMap="resultMap">
         SELECT
-        <include refid="columnList"/>
-        FROM sys_user
+        <include refid="columnListLazy"/>
+        FROM sys_user user
+        WHERE user.org_uri = #{orgUri}
     </select>
 
     <select id="getOne" parameterType="String" resultMap="resultMap">
         SELECT
-        <include refid="columnList"/>
-        FROM sys_user
-        WHERE id = #{id}
+        <include refid="columnListEager"/>
+        FROM sys_user user
+        INNER JOIN sys_org org ON user.org_uri = org.uri
+        WHERE user.id = #{id}
     </select>
 
     <insert id="insert" parameterType="User">
-       INSERT INTO sys_user (name,age,email)
-       	VALUES (#{name}, #{age}, #{email})
+        INSERT INTO sys_user (<include refid="columnListLazy"/>)
+        VALUES (#{id}, #{name}, #{password}, #{age}, #{email}, #{gender, typeHandler=GenderTypeHandler}, #{org.uri})
     </insert>
 
     <update id="update" parameterType="User">
-        UPDATE sys_user SET
-        <if test="name != null">name = #{name},</if>
-        <if test="age != null">age = #{age},</if>
+        UPDATE sys_user
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="gender != null">gender = #{gender, typeHandler=GenderTypeHandler},</if>
+            <if test="org != null">org_uri = #{org.uri},</if>
+        </set>
         WHERE
         id = #{id}
     </update>

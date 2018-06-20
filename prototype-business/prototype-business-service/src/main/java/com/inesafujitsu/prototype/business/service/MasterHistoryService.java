@@ -8,24 +8,24 @@ import java.util.List;
 import java.util.Map;
 
 @Transactional
-public interface AbstractMasterHistoryService<M extends Master, H extends History> {
+public interface MasterHistoryService<M extends Master, H extends History> {
 
     List<M> getAllMasters();
 
     M getMaster(String id);
 
-    M createMaster(Map<String, Object> masterMap);
-
     List<H> getAllHistories(String masterId);
 
     H getHistory(String masterId, Integer idx);
 
-    M checkOutMaster(String id);
+    M create(Map<String, Object> masterMap);
 
-    M checkInMaster(String id);
+    M update(String id, Map<String, Object> masterMap);
 
-    M updateMaster(String id, Map<String, Object> masterMap);
+    void remove(String id);
 
-    void removeMaster(String id);
+    M checkOut(String id);
+
+    M checkIn(String id);
 
 }

@@ -4,8 +4,7 @@ import com.inesafujitsu.prototype.business.model.Mask;
 import com.inesafujitsu.prototype.business.model.MaskHistory;
 import com.inesafujitsu.prototype.business.model.TransportBox;
 import com.inesafujitsu.prototype.business.model.TransportBoxHistory;
-import com.inesafujitsu.prototype.business.service.AbstractMasterHistoryService;
-import com.inesafujitsu.prototype.business.service.RelationService;
+import com.inesafujitsu.prototype.business.service.*;
 import com.inesafujitsu.prototype.business.service.impl.DefaultMasterHistoryServiceImpl;
 import com.inesafujitsu.prototype.business.service.impl.RelationServiceImpl;
 import org.springframework.context.annotation.Bean;
@@ -27,41 +26,59 @@ public class ApplicationContext {
     }
 
     @Bean
-    public AbstractMasterHistoryService maskService() {
+    public MasterHistoryService maskService(MasterService<Mask> maskMasterService,
+                                            HistoryService<MaskHistory> maskHistoryService) {
+        return new DefaultMasterHistoryServiceImpl<>(maskMasterService, maskHistoryService);
+    }
 
-        return new DefaultMasterHistoryServiceImpl<Mask, MaskHistory>() {
+    @Bean
+    public MasterService<Mask> maskMasterService() {
+        return new AbstractMasterService<Mask>() {
 
             @Override
-            public Mask buildMaster(Map<String, Object> args) {
+            protected Mask buildMaster(Map<String, Object> args) {
                 return new Mask.Builder(args).build();
             }
+        };
+    }
+
+    @Bean
+    public HistoryService<MaskHistory> maskHistoryService() {
+        return new AbstractHistoryService<MaskHistory>() {
 
             @Override
             public MaskHistory buildHistory(Map<String, Object> args) {
                 return new MaskHistory.Builder(args).build();
             }
-
         };
-
     }
 
     @Bean
-    public AbstractMasterHistoryService transportBoxService() {
+    public MasterHistoryService transportBoxService(MasterService<TransportBox> transportBoxMasterService,
+                                                    HistoryService<TransportBoxHistory> transportBoxHistoryService) {
+        return new DefaultMasterHistoryServiceImpl<>(transportBoxMasterService, transportBoxHistoryService);
+    }
 
-        return new DefaultMasterHistoryServiceImpl<TransportBox, TransportBoxHistory>() {
+    @Bean
+    public MasterService<TransportBox> transportBoxMasterService() {
+        return new AbstractMasterService<TransportBox>() {
 
             @Override
-            public TransportBox buildMaster(Map<String, Object> args) {
+            protected TransportBox buildMaster(Map args) {
                 return new TransportBox.Builder(args).build();
             }
+        };
+    }
+
+    @Bean
+    public HistoryService<TransportBoxHistory> transportBoxHistoryService() {
+        return new AbstractHistoryService<TransportBoxHistory>() {
 
             @Override
             public TransportBoxHistory buildHistory(Map<String, Object> args) {
                 return new TransportBoxHistory.Builder(args).build();
             }
-
         };
-
     }
 
     @Bean

@@ -9,12 +9,13 @@ public class Org extends Entity {
 
     private String name;
     private String descr;
-    private OrgType type;
+    private String typeCode;
     private Integer level;
     private String uri;
 
     private Org parent;
     private List<Org> children;
+    private List<User> users;
 
     public String getName() {
         return name;
@@ -32,12 +33,12 @@ public class Org extends Entity {
         this.descr = descr;
     }
 
-    public OrgType getType() {
-        return type;
+    public String getTypeCode() {
+        return typeCode;
     }
 
-    public void setType(OrgType type) {
-        this.type = type;
+    public void setTypeCode(String typeCode) {
+        this.typeCode = typeCode;
     }
 
     public Integer getLevel() {
@@ -72,10 +73,25 @@ public class Org extends Entity {
         this.children = children;
     }
 
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
     public static class Builder extends Entity.Builder<Org> {
+
+        private Boolean forTop;
 
         public Builder(Map<String, Object> args) {
             super(args);
+        }
+
+        public Builder forTop(Boolean forTop) {
+            this.forTop = forTop;
+            return this;
         }
 
         @Override
@@ -84,11 +100,19 @@ public class Org extends Entity {
 
             node.setName((String) args.get("name"));
             node.setDescr((String) args.get("descr"));
-            node.setType(OrgType.get((String) args.get("typeCode")));
-            Org parent = (Org) args.get("parent");
-            node.setParent(parent);
-            node.setLevel(parent == null ? 1 : parent.getLevel() + 1);
-            node.setUri(parent == null ? node.getId() : parent.getUri() + "/" + node.getId());
+            node.setTypeCode((String) args.get("typeCode"));
+
+            if (forTop) {
+                node.setLevel(1);
+                node.setUri(node.getId());
+            } else {
+                Org parent = (Org) args.get("parent");
+                if (parent != null) {
+                    node.setParent(parent);
+                    node.setLevel(parent.getLevel() + 1);
+                    node.setUri(parent.getUri() + "/" + node.getId());
+                }
+            }
 
             return node;
         }

@@ -2,6 +2,7 @@ package com.inesafujitsu.prototype.platform.web.jersey.resource;
 
 import com.inesafujitsu.prototype.platform.commons.support.HttpUtils;
 import com.inesafujitsu.prototype.platform.model.Org;
+import com.inesafujitsu.prototype.platform.model.OrgType;
 import com.inesafujitsu.prototype.platform.service.OrgService;
 import com.inesafujitsu.prototype.platform.web.jersey.support.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +25,6 @@ public class OrgResource {
         return orgService.getAll();
     }
 
-    @GET
-    @Path(Constants.SUB_RESOURCE_URI)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Org findOne(@NotNull @PathParam(Constants.PATH_PARAM_URI) String uri) {
-        return orgService.findByUri(uri);
-    }
-
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -40,34 +34,53 @@ public class OrgResource {
         return orgService.createCompany(nodeMap);
     }
 
-    @POST
-    @Path(Constants.SUB_RESOURCE_URI)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Org addChild(@PathParam(Constants.PATH_PARAM_URI) String nodeUri,
-                        @NotNull String requestBody) {
-        Map<String, Object> childNodeMap = HttpUtils.parseRequestBody(requestBody);
-
-        return orgService.addChild(nodeUri, childNodeMap);
+    @Path(Constants.SUB_RESOURCE_LOCATOR_URI)
+    public URISpecificResource uriSpecificResource() {
+        return new URISpecificResource();
     }
 
-    @PUT
-    @Path(Constants.SUB_RESOURCE_URI)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Org update(@PathParam(Constants.PATH_PARAM_URI) String nodeUri,
-                      @NotNull String requestBody) {
-        Map<String, Object> childNodeMap = HttpUtils.parseRequestBody(requestBody);
+    public class URISpecificResource {
 
-        return orgService.update(nodeUri, childNodeMap);
-    }
+        @GET
+        @Produces(MediaType.APPLICATION_JSON)
+        public Org findOne(@PathParam(Constants.PATH_PARAM_URI) String uri) {
+            return orgService.findByUri(uri);
+        }
 
-    @DELETE
-    @Path(Constants.SUB_RESOURCE_URI)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Org remove(@PathParam(Constants.PATH_PARAM_URI) String nodeUri) {
-        return orgService.remove(nodeUri);
+        @POST
+        @Produces(MediaType.APPLICATION_JSON)
+        @Consumes(MediaType.APPLICATION_JSON)
+        public Org addChild(@PathParam(Constants.PATH_PARAM_URI) String nodeUri,
+                            @NotNull String requestBody) {
+            Map<String, Object> childNodeMap = HttpUtils.parseRequestBody(requestBody);
+
+            return orgService.addChild(nodeUri, childNodeMap);
+        }
+
+        @PUT
+        @Produces(MediaType.APPLICATION_JSON)
+        @Consumes(MediaType.APPLICATION_JSON)
+        public Org update(@PathParam(Constants.PATH_PARAM_URI) String nodeUri,
+                          @NotNull String requestBody) {
+            Map<String, Object> childNodeMap = HttpUtils.parseRequestBody(requestBody);
+
+            return orgService.update(nodeUri, childNodeMap);
+        }
+
+        @DELETE
+        @Produces(MediaType.APPLICATION_JSON)
+        @Consumes(MediaType.APPLICATION_JSON)
+        public Org remove(@PathParam(Constants.PATH_PARAM_URI) String nodeUri) {
+            return orgService.remove(nodeUri);
+        }
+
+        @GET
+        @Path(Constants.SUB_RESOURCE_SUB_TYPES)
+        @Produces(MediaType.APPLICATION_JSON)
+        public List<OrgType> getSubTypes(@QueryParam(Constants.QUERY_PARAM_TYPE_CODE) String typeCode) {
+            return orgService.getSubTypes(typeCode);
+        }
+
     }
 
 }

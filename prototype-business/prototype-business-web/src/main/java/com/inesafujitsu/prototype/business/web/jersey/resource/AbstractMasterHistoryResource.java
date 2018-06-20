@@ -2,7 +2,7 @@ package com.inesafujitsu.prototype.business.web.jersey.resource;
 
 import com.inesafujitsu.prototype.business.model.abs.History;
 import com.inesafujitsu.prototype.business.model.abs.Master;
-import com.inesafujitsu.prototype.business.service.AbstractMasterHistoryService;
+import com.inesafujitsu.prototype.business.service.MasterHistoryService;
 import com.inesafujitsu.prototype.business.service.support.UpdateOpt;
 import com.inesafujitsu.prototype.business.service.support.Validator;
 import com.inesafujitsu.prototype.business.web.jersey.support.Constants;
@@ -17,7 +17,7 @@ import java.util.Map;
 
 public abstract class AbstractMasterHistoryResource {
 
-    public abstract AbstractMasterHistoryService getService();
+    public abstract MasterHistoryService getService();
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -53,7 +53,7 @@ public abstract class AbstractMasterHistoryResource {
     public Master createMaster(@NotNull String requestBody) {
         Map masterMap = HttpUtils.parseRequestBody(requestBody);
 
-        return getService().createMaster(masterMap);
+        return getService().create(masterMap);
     }
 
     @PUT
@@ -76,12 +76,12 @@ public abstract class AbstractMasterHistoryResource {
 
         switch (UpdateOpt.lookup(operator)) {
             case CHECK_OUT:
-                return getService().checkOutMaster(id);
+                return getService().checkOut(id);
             case CHECK_IN:
-                return getService().checkInMaster(id);
+                return getService().checkIn(id);
             default:
                 Map<String, Object> masterMap = (Map<String, Object>) requestBodyMap.get("master");
-                return getService().updateMaster(id, masterMap);
+                return getService().update(id, masterMap);
         }
     }
 
@@ -89,7 +89,7 @@ public abstract class AbstractMasterHistoryResource {
     @Path(Constants.SUB_RESOURCE_ID)
     @Produces(MediaType.APPLICATION_JSON)
     public Response removeMaster(@PathParam(Constants.PATH_PARAM_ID) String id) {
-        getService().removeMaster(id);
+        getService().remove(id);
 
         return Response.ok().build();
     }

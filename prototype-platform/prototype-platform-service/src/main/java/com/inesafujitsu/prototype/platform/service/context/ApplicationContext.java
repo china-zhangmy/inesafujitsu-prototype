@@ -20,7 +20,7 @@ public class ApplicationContext {
     }
 
     @Bean
-    public OrgService departmentService() {
+    public OrgService orgService() {
         return new OrgServiceImpl();
     }
 

@@ -3,6 +3,8 @@ package com.inesafujitsu.prototype.platform.persist.mapper;
 import com.inesafujitsu.prototype.platform.model.User;
 import com.inesafujitsu.prototype.platform.persist.mapper.abs.AbstractMapper;
 
+import java.util.List;
+
 public interface UserMapper extends AbstractMapper<User> {
 
     //    @Select("SELECT * FROM user")
@@ -19,5 +21,7 @@ public interface UserMapper extends AbstractMapper<User> {
 
     //    @Delete("DELETE FROM user WHERE id =#{id}")
 //    void delete(String id);
+
+    List<User> getAll(String orgUri);
 
 }

@@ -1,20 +1,35 @@
 package com.inesafujitsu.prototype.platform.service;
 
-import org.springframework.transaction.annotation.Transactional;
+import com.inesafujitsu.prototype.platform.persist.mapper.abs.AbstractMapper;
 
 import java.util.List;
 
-@Transactional
-public interface AbstractService<T> {
+public abstract class AbstractService<T> implements IService<T> {
 
-    List<T> getAll();
+    protected abstract AbstractMapper<T> getMapper();
 
-    T getOne(String id);
+    @Override
+    public List<T> getAll() {
+        return getMapper().getAll();
+    }
 
-    void insert(T entity);
+    @Override
+    public T getOne(String id) {
+        return getMapper().getOne(id);
+    }
 
-    void update(T entity);
+    @Override
+    public void insert(T entity) {
+        getMapper().insert(entity);
+    }
 
-    void delete(String id);
+    @Override
+    public void update(T entity) {
+        getMapper().update(entity);
+    }
 
+    @Override
+    public void delete(String id) {
+        getMapper().delete(id);
+    }
 }

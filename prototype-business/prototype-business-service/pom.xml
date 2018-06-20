@@ -20,6 +20,12 @@
             <artifactId>${project.parent.artifactId}-persist</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>${project.platform.artifactId}-service</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

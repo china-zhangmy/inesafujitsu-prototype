@@ -5,8 +5,7 @@
         <id column="id" property="id" javaType="String"/>
         <result column="name" property="name" javaType="String"/>
         <result column="descr" property="descr" javaType="String"/>
-        <result column="type_code" property="type" javaType="OrgType"
-                typeHandler="OrgTypeTypeHandler"/>
+        <result column="type_code" property="typeCode" javaType="String"/>
         <result column="level" property="level" javaType="Integer"/>
         <result column="uri" property="uri" javaType="String"/>
 
@@ -18,8 +17,7 @@
         <id column="id" property="id" javaType="String"/>
         <result column="name" property="name" javaType="String"/>
         <result column="descr" property="descr" javaType="String"/>
-        <result column="type_code" property="type" javaType="OrgType"
-                typeHandler="OrgTypeTypeHandler"/>
+        <result column="type_code" property="typeCode" javaType="String"/>
         <result column="level" property="level" javaType="Integer"/>
         <result column="uri" property="uri" javaType="String"/>
     </resultMap>
@@ -60,9 +58,7 @@
 
     <insert id="insert" parameterType="Org">
         INSERT INTO sys_org (<include refid="columnListLazy"/>)
-        VALUES (#{id}, #{name}, #{descr},
-        #{type, typeHandler=OrgTypeTypeHandler},
-        #{level}, #{uri}, #{parent.id})
+        VALUES (#{id}, #{name}, #{descr}, #{typeCode}, #{level}, #{uri}, #{parent.id})
     </insert>
 
     <update id="update" parameterType="Org">
@@ -70,6 +66,7 @@
         <set>
             <if test="name != null">name = #{name},</if>
             <if test="descr != null">descr = #{descr},</if>
+            <if test="parent != null">parent_id = #{parent.id},</if>
         </set>
         WHERE id = #{id}
     </update>

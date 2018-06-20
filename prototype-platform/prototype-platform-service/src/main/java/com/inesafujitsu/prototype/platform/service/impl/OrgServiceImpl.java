@@ -4,19 +4,31 @@ import com.inesafujitsu.prototype.platform.commons.exception.EntityNotPersistedE
 import com.inesafujitsu.prototype.platform.commons.exception.EntityPersistedException;
 import com.inesafujitsu.prototype.platform.commons.exception.EntityRemoveNotAllowedException;
 import com.inesafujitsu.prototype.platform.commons.support.IdGenerator;
+import com.inesafujitsu.prototype.platform.commons.support.StringUtils;
 import com.inesafujitsu.prototype.platform.model.Org;
 import com.inesafujitsu.prototype.platform.model.OrgType;
 import com.inesafujitsu.prototype.platform.persist.mapper.OrgMapper;
+import com.inesafujitsu.prototype.platform.persist.mapper.OrgTypeMapper;
+import com.inesafujitsu.prototype.platform.persist.mapper.abs.AbstractMapper;
+import com.inesafujitsu.prototype.platform.service.AbstractService;
 import com.inesafujitsu.prototype.platform.service.OrgService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Map;
 
-public class OrgServiceImpl implements OrgService {
+public class OrgServiceImpl extends AbstractService<Org> implements OrgService {
 
     @Autowired
     OrgMapper orgMapper;
+
+    @Autowired
+    OrgTypeMapper orgTypeMapper;
+
+    @Override
+    protected AbstractMapper<Org> getMapper() {
+        return orgMapper;
+    }
 
     @Override
     public Org findByUri(String uri) {
@@ -25,14 +37,11 @@ public class OrgServiceImpl implements OrgService {
 
     @Override
     public Org createCompany(Map<String, Object> nodeMap) {
-        if (nodeMap.get("id") != null) {
-            throw new EntityPersistedException(Org.class.getTypeName(), String.valueOf(nodeMap.get("id")));
-        }
-
         String companyId = IdGenerator.generateId();
 
         nodeMap.put("id", companyId);
-        nodeMap.put("typeCode", OrgType.COMPANY.getCode());
+        OrgType topOrgType = orgTypeMapper.getTop();
+        nodeMap.put("typeCode", topOrgType != null ? topOrgType.getCode() : "C");
 
         Org company = new Org.Builder(nodeMap).build();
 
@@ -43,11 +52,11 @@ public class OrgServiceImpl implements OrgService {
 
     @Override
     public Org addChild(String nodeUri, Map<String, Object> childNodeMap) {
-        if (nodeUri == null) {
+        if (StringUtils.isBlank(nodeUri)) {
             throw new EntityNotPersistedException(Org.class.getTypeName(), "parent");
         }
 
-        if (childNodeMap.get("uri") != null) {
+        if (StringUtils.isNotBlank((String) childNodeMap.get("uri"))) {
             throw new EntityPersistedException(Org.class.getTypeName(), String.valueOf(childNodeMap.get("uri")));
         }
 
@@ -83,9 +92,11 @@ public class OrgServiceImpl implements OrgService {
     public Org update(String nodeUri, Map<String, Object> nodeMap) {
         Org node = findByUri(nodeUri);
 
-        if (node.getId() == null) {
-            throw new EntityNotPersistedException(Org.class.getTypeName(), node.getName());
+        if (node == null) {
+            throw new EntityNotPersistedException(Org.class.getTypeName(), nodeUri);
         }
+
+        node = new Org.Builder(nodeMap).build();
 
         update(node);
 
@@ -93,28 +104,9 @@ public class OrgServiceImpl implements OrgService {
     }
 
     @Override
-    public List<Org> getAll() {
-        return orgMapper.getAll();
-    }
-
-    @Override
-    public Org getOne(String id) {
-        return orgMapper.getOne(id);
-    }
-
-    @Override
-    public void insert(Org entity) {
-        orgMapper.insert(entity);
-    }
-
-    @Override
-    public void update(Org entity) {
-        orgMapper.update(entity);
-    }
-
-    @Override
-    public void delete(String id) {
-        orgMapper.delete(id);
+    public List<OrgType> getSubTypes(String typeCode) {
+        OrgType currNodeType = orgTypeMapper.getOne(typeCode);
+        return currNodeType.getChildren();
     }
 
 }

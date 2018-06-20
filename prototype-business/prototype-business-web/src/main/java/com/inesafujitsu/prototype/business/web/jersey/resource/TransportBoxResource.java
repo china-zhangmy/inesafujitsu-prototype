@@ -1,6 +1,6 @@
 package com.inesafujitsu.prototype.business.web.jersey.resource;
 
-import com.inesafujitsu.prototype.business.service.AbstractMasterHistoryService;
+import com.inesafujitsu.prototype.business.service.MasterHistoryService;
 import com.inesafujitsu.prototype.business.web.jersey.support.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -10,10 +10,10 @@ import javax.ws.rs.Path;
 public class TransportBoxResource extends AbstractMasterHistoryResource {
 
     @Autowired
-    AbstractMasterHistoryService transportBoxService;
+    MasterHistoryService transportBoxService;
 
     @Override
-    public AbstractMasterHistoryService getService() {
+    public MasterHistoryService getService() {
         return transportBoxService;
     }
 

@@ -1,12 +1,11 @@
 package com.inesafujitsu.prototype.platform.persist.mapper.abs;
 
-import com.inesafujitsu.prototype.platform.commons.model.Entity;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 @Mapper
-public interface AbstractMapper<T extends Entity> {
+public interface AbstractMapper<T> {
 
     List<T> getAll();
 

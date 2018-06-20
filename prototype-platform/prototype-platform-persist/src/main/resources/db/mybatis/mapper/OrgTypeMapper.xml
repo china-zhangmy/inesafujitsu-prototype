@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.inesafujitsu.prototype.platform.persist.mapper.OrgTypeMapper">
+    <resultMap id="resultMap" type="OrgType">
+        <id column="code" property="code" javaType="String"/>
+        <result column="descr" property="descr" javaType="String"/>
+
+        <collection property="children" resultMap="childResultMap" columnPrefix="child_"/>
+    </resultMap>
+
+    <resultMap id="childResultMap" type="OrgType">
+        <id column="code" property="code" javaType="String"/>
+        <result column="descr" property="descr" javaType="String"/>
+    </resultMap>
+
+    <sql id="columnListLazy">
+        code, descr
+    </sql>
+
+    <sql id="columnListEager">
+        self.code, self.descr, child.code AS child_code, child.descr AS child_descr
+    </sql>
+
+    <select id="getOne" parameterType="String" resultMap="resultMap">
+        SELECT
+        <include refid="columnListEager"/>
+        FROM sys_org_type self LEFT JOIN sys_org_type child ON self.code = child.parent_code
+        WHERE self.code = #{code} and (child.invalid = 0 || child.invalid is NULL);
+    </select>
+
+    <select id="getTop" resultMap="resultMap">
+        SELECT
+        <include refid="columnListLazy"/>
+        FROM sys_org_type self
+        WHERE self.parent_code is NULL and (self.invalid = 0 || self.invalid is NULL);
+    </select>
+
+</mapper>

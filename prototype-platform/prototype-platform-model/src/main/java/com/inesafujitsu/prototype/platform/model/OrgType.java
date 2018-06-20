@@ -1,31 +1,35 @@
 package com.inesafujitsu.prototype.platform.model;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
-public enum OrgType {
-
-    COMPANY("C"), DEPARTMENT("D"), GROUP("G");
+public class OrgType {
 
     private String code;
-    private static Map<String, OrgType> orgTypes = new HashMap<>();
+    private String descr;
 
-    static {
-        for (OrgType type : values()) {
-            orgTypes.put(type.code, type);
-        }
-    }
-
-    OrgType(String code) {
-        this.code = code;
-    }
+    private List<OrgType> children;
 
     public String getCode() {
         return code;
     }
 
-    public static OrgType get(String code) {
-        return orgTypes.get(code);
+    public void setCode(String code) {
+        this.code = code;
     }
 
+    public String getDescr() {
+        return descr;
+    }
+
+    public void setDescr(String descr) {
+        this.descr = descr;
+    }
+
+    public List<OrgType> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<OrgType> children) {
+        this.children = children;
+    }
 }
