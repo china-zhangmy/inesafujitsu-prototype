@@ -9,41 +9,41 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class GenderTypeHandler extends BaseTypeHandler<User.Gender> {
+public class UserTypeTypeHandler extends BaseTypeHandler<User.Type> {
 
     @Override
-    public void setNonNullParameter(PreparedStatement ps, int i, User.Gender parameter, JdbcType jdbcType)
+    public void setNonNullParameter(PreparedStatement ps, int i, User.Type parameter, JdbcType jdbcType)
             throws SQLException {
         ps.setString(i, parameter.getCode());
     }
 
     @Override
-    public User.Gender getNullableResult(ResultSet rs, String columnName) throws SQLException {
+    public User.Type getNullableResult(ResultSet rs, String columnName) throws SQLException {
         if (rs.wasNull()) {
             return null;
         } else {
             String code = rs.getString(columnName);
-            return User.Gender.get(code);
+            return User.Type.get(code);
         }
     }
 
     @Override
-    public User.Gender getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
+    public User.Type getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
         if (rs.wasNull()) {
             return null;
         } else {
             String code = rs.getString(columnIndex);
-            return User.Gender.get(code);
+            return User.Type.get(code);
         }
     }
 
     @Override
-    public User.Gender getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
+    public User.Type getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
         if (cs.wasNull()) {
             return null;
         } else {
             String code = cs.getString(columnIndex);
-            return User.Gender.get(code);
+            return User.Type.get(code);
         }
     }
 }

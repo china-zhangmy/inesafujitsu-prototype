@@ -23,7 +23,7 @@ public abstract class AbstractHistoryService<H extends History> extends Abstract
         return historyMapper;
     }
 
-    public abstract H buildHistory(Map<String, Object> args);
+    public abstract H build(Map<String, Object> args);
 
     @Override
     public List<H> getAll(String masterId) {
@@ -48,7 +48,7 @@ public abstract class AbstractHistoryService<H extends History> extends Abstract
         args.put("createUser", createUser);
         args.put("note", note);
 
-        H history = (H) buildHistory(args);
+        H history = (H) build(args);
 
         insert(history);
     }

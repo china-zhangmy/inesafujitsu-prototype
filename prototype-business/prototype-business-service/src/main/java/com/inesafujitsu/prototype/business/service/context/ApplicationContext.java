@@ -36,7 +36,7 @@ public class ApplicationContext {
         return new AbstractMasterService<Mask>() {
 
             @Override
-            protected Mask buildMaster(Map<String, Object> args) {
+            protected Mask build(Map<String, Object> args) {
                 return new Mask.Builder(args).build();
             }
         };
@@ -47,7 +47,7 @@ public class ApplicationContext {
         return new AbstractHistoryService<MaskHistory>() {
 
             @Override
-            public MaskHistory buildHistory(Map<String, Object> args) {
+            public MaskHistory build(Map<String, Object> args) {
                 return new MaskHistory.Builder(args).build();
             }
         };
@@ -64,7 +64,7 @@ public class ApplicationContext {
         return new AbstractMasterService<TransportBox>() {
 
             @Override
-            protected TransportBox buildMaster(Map args) {
+            protected TransportBox build(Map args) {
                 return new TransportBox.Builder(args).build();
             }
         };
@@ -75,7 +75,7 @@ public class ApplicationContext {
         return new AbstractHistoryService<TransportBoxHistory>() {
 
             @Override
-            public TransportBoxHistory buildHistory(Map<String, Object> args) {
+            public TransportBoxHistory build(Map<String, Object> args) {
                 return new TransportBoxHistory.Builder(args).build();
             }
         };

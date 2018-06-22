@@ -20,7 +20,7 @@ public abstract class AbstractMasterService<M extends Master> extends AbstractSe
         return masterMapper;
     }
 
-    protected abstract M buildMaster(Map<String, Object> args);
+    protected abstract M build(Map<String, Object> args);
 
     @Override
     public void create(String id, Map<String, Object> args) {
@@ -31,7 +31,7 @@ public abstract class AbstractMasterService<M extends Master> extends AbstractSe
         args.put("createDate", new Date());
         args.put("createUser", "dummy_create_user");
 
-        M master = buildMaster(args);
+        M master = build(args);
         insert(master);
     }
 
@@ -45,7 +45,7 @@ public abstract class AbstractMasterService<M extends Master> extends AbstractSe
         args.put("updateUser", "dummy_update_user");
         args.put("currIdx", masterDb.getCurrIdx() + 1);
 
-        M master = buildMaster(args);
+        M master = build(args);
         update(master);
     }
 
@@ -58,7 +58,7 @@ public abstract class AbstractMasterService<M extends Master> extends AbstractSe
         args.put("id", id);
         args.put("currIdx", masterDb.getCurrIdx() + 1);
 
-        M master = buildMaster(args);
+        M master = build(args);
         update(master);
     }
 

@@ -2,6 +2,7 @@ package com.inesafujitsu.prototype.business.persist.support;
 
 import com.inesafujitsu.prototype.platform.commons.support.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SQLResolver {
@@ -9,8 +10,8 @@ public class SQLResolver {
     private String table;
     private String id;
     private String where;
-    private List<String> columns;
-    private List<Object> values;
+    private List<String> columns = new ArrayList<>();
+    private List<Object> values = new ArrayList<>();
 
     public SQLResolver table(String table) {
         this.table = table;

@@ -7,16 +7,25 @@ public class Constants {
 
     public static final String ROOT_RESOURCE_HELLO_WORLD = "hello_world";
     public static final String ROOT_RESOURCE_ORGANIZATIONS = "organizations";
-    public static final String ROOT_RESOURCE_USERS = "organizations/{uri: ([a-z0-9]{32}\\/)*[a-z0-9]{32}}/users";
+//    public static final String ROOT_RESOURCE_GROUPS = "groups";
+//    public static final String ROOT_RESOURCE_USERS = "users";
+//    public static final String ROOT_RESOURCE_USERS = "organizations/{uri: ([a-z0-9]{32}\\/)*[a-z0-9]{32}}/users";
 
     public static final String SUB_RESOURCE_LOCATOR_URI = "{uri: ([a-z0-9]{32}\\/)*[a-z0-9]{32}}";
+    public static final String SUB_RESOURCE_LOCATOR_GROUPS = "groups";
+    public static final String SUB_RESOURCE_LOCATOR_USERS = "users";
+    public static final String SUB_RESOURCE_LOCATOR_GROUP_ID = "{group_id}";
 
     public static final String SUB_RESOURCE_CHECK_DATABASE = "check_database";
     public static final String SUB_RESOURCE_ID = "{id}";
+    public static final String SUB_RESOURCE_GROUP_ID = "{group_id}";
+    public static final String SUB_RESOURCE_USER_ID = "{user_id}";
     public static final String SUB_RESOURCE_SUB_TYPES = "sub_types";
 
     // Path Param
     public static final String PATH_PARAM_ID = "id";
+    public static final String PATH_PARAM_GROUP_ID = "group_id";
+    public static final String PATH_PARAM_USER_ID = "user_id";
     public static final String PATH_PARAM_URI = "uri";
 
     // Query Param

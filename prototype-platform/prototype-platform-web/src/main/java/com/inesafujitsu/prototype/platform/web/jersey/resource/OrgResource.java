@@ -2,11 +2,11 @@ package com.inesafujitsu.prototype.platform.web.jersey.resource;
 
 import com.inesafujitsu.prototype.platform.commons.support.HttpUtils;
 import com.inesafujitsu.prototype.platform.model.Org;
-import com.inesafujitsu.prototype.platform.model.OrgType;
 import com.inesafujitsu.prototype.platform.service.OrgService;
 import com.inesafujitsu.prototype.platform.web.jersey.support.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.inject.Singleton;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -35,11 +35,15 @@ public class OrgResource {
     }
 
     @Path(Constants.SUB_RESOURCE_LOCATOR_URI)
-    public URISpecificResource uriSpecificResource() {
-        return new URISpecificResource();
+    public Class<URISpecificOrgResource> uriSpecificOrgResource() {
+        return URISpecificOrgResource.class;
     }
 
-    public class URISpecificResource {
+    @Singleton
+    public static class URISpecificOrgResource {
+
+        @Autowired
+        OrgService orgService;
 
         @GET
         @Produces(MediaType.APPLICATION_JSON)
@@ -77,8 +81,18 @@ public class OrgResource {
         @GET
         @Path(Constants.SUB_RESOURCE_SUB_TYPES)
         @Produces(MediaType.APPLICATION_JSON)
-        public List<OrgType> getSubTypes(@QueryParam(Constants.QUERY_PARAM_TYPE_CODE) String typeCode) {
+        public List<Org.Type> getSubTypes(@QueryParam(Constants.QUERY_PARAM_TYPE_CODE) String typeCode) {
             return orgService.getSubTypes(typeCode);
+        }
+
+        @Path(Constants.SUB_RESOURCE_LOCATOR_USERS)
+        public Class<UserResource> userResourceLocator() {
+            return UserResource.class;
+        }
+
+        @Path(Constants.SUB_RESOURCE_LOCATOR_GROUPS)
+        public Class<GroupResource> groupResourceLocator() {
+            return GroupResource.class;
         }
 
     }

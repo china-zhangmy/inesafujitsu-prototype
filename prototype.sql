@@ -95,6 +95,38 @@ CREATE TABLE `biz_transport_box_h` (
 ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
 ;
 
+/* Structure for the `databasechangelog` table : */
+
+CREATE TABLE `databasechangelog` (
+  `ID` VARCHAR(255) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `AUTHOR` VARCHAR(255) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `FILENAME` VARCHAR(255) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `DATEEXECUTED` DATETIME NOT NULL,
+  `ORDEREXECUTED` INTEGER(11) NOT NULL,
+  `EXECTYPE` VARCHAR(10) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `MD5SUM` VARCHAR(35) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `DESCRIPTION` VARCHAR(255) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `COMMENTS` VARCHAR(255) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `TAG` VARCHAR(255) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `LIQUIBASE` VARCHAR(20) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `CONTEXTS` VARCHAR(255) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `LABELS` VARCHAR(255) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `DEPLOYMENT_ID` VARCHAR(10) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL
+) ENGINE=InnoDB
+ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
+;
+
+/* Structure for the `databasechangeloglock` table : */
+
+CREATE TABLE `databasechangeloglock` (
+  `ID` INTEGER(11) NOT NULL,
+  `LOCKED` BIT(1) NOT NULL,
+  `LOCKGRANTED` DATETIME DEFAULT NULL,
+  `LOCKEDBY` VARCHAR(255) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  PRIMARY KEY USING BTREE (`ID`)
+) ENGINE=InnoDB
+ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
+;
 
 /* Structure for the `def_component` table : */
 
@@ -147,13 +179,26 @@ ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
 /* Structure for the `sys_org` table : */
 
 CREATE TABLE `sys_org` (
-  `id` VARCHAR(32) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `id` VARCHAR(32) COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `name` VARCHAR(20) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `descr` VARCHAR(50) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `type_code` VARCHAR(20) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `type_code` VARCHAR(3) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `parent_id` VARCHAR(32) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `level` TINYINT(4) DEFAULT NULL,
-  `uri` VARCHAR(200) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL
+  `uri` VARCHAR(200) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  PRIMARY KEY USING BTREE (`id`)
+) ENGINE=InnoDB
+ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
+;
+
+/* Structure for the `sys_org_type` table : */
+
+CREATE TABLE `sys_org_type` (
+  `code` VARCHAR(3) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `descr` VARCHAR(20) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `parent_code` VARCHAR(3) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `invalid` TINYINT(4) DEFAULT NULL,
+  PRIMARY KEY USING BTREE (`code`)
 ) ENGINE=InnoDB
 ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
 ;
@@ -161,13 +206,16 @@ ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
 /* Structure for the `sys_user` table : */
 
 CREATE TABLE `sys_user` (
-  `id` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'User ID',
+  `id` CHAR(32) COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'User ID',
   `name` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'User Name',
   `age` INTEGER(3) DEFAULT NULL COMMENT 'User Age',
-  `email` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'User Email(unique)',
-  `gender` INTEGER(1) NOT NULL DEFAULT 1 COMMENT 'User Gender(1: male; 0: female)',
+  `email` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'User Email(unique)',
+  `gender` VARCHAR(3) COLLATE utf8mb4_0900_ai_ci DEFAULT '1' COMMENT 'User Gender(M: male; F: female)',
   `password` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `department_id` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `org_uri` VARCHAR(200) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `type_code` VARCHAR(3) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `group_id` CHAR(32) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `descr` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY USING BTREE (`id`),
   UNIQUE KEY `UK_EMAIL` USING BTREE (`email`)
 ) ENGINE=InnoDB
@@ -226,20 +274,35 @@ INSERT INTO `biz_transport_box_h` (`id`, `master_id`, `idx`, `create_date`, `cre
   ('cfab4c85799443cb9be10ec0c3876ec2','cc27a55170be479f9699267562bb5b26',2,'2018-06-04 16:36:09','dummy_update_user','Update');
 COMMIT;
 
+/* Data for the `databasechangeloglock` table  (LIMIT 0,500) */
+
+INSERT INTO `databasechangeloglock` (`ID`, `LOCKED`, `LOCKGRANTED`, `LOCKEDBY`) VALUES
+  (1,0,NULL,NULL);
+COMMIT;
+
 /* Data for the `sys_org` table  (LIMIT 0,500) */
 
 INSERT INTO `sys_org` (`id`, `name`, `descr`, `type_code`, `parent_id`, `level`, `uri`) VALUES
-  ('eb1ddf3d125640968828034563a006d6','CompanyA','Company A','C',NULL,1,'eb1ddf3d125640968828034563a006d6'),
-  ('7dddb77a62674f49a7be6d25d4692a7d','CompanyA','Company A','C',NULL,1,'7dddb77a62674f49a7be6d25d4692a7d');
+  ('0589233752ec4eb3adafad798029b59f','CompanyB','Company B','C',NULL,1,'0589233752ec4eb3adafad798029b59f'),
+  ('89fc02ca754244418693b9ebb35cf7bf','DeppartmentX','Department X, child of company B','D','eb1ddf3d125640968828034563a006d6',2,'eb1ddf3d125640968828034563a006d6/89fc02ca754244418693b9ebb35cf7bf'),
+  ('eb1ddf3d125640968828034563a006d6','CompanyA','Company A','C',NULL,1,'eb1ddf3d125640968828034563a006d6');
+COMMIT;
+
+/* Data for the `sys_org_type` table  (LIMIT 0,500) */
+
+INSERT INTO `sys_org_type` (`code`, `descr`, `parent_code`, `invalid`) VALUES
+  ('C','Company',NULL,NULL),
+  ('D','Department','C',NULL),
+  ('G','Group','D',NULL);
 COMMIT;
 
 /* Data for the `sys_user` table  (LIMIT 0,500) */
 
-INSERT INTO `sys_user` (`id`, `name`, `age`, `email`, `gender`, `password`, `department_id`) VALUES
-  ('101','user101',21,'user101@inesa-f.com',1,'pwd101','1'),
-  ('102','user102',24,'user102@inesa-f.com',0,'pwd102','1'),
-  ('201','user201',22,'user201@inesa-f.com',0,'pwd201','2'),
-  ('301','user301',23,'user301@inesa-f.com',1,'pwd301','3');
+INSERT INTO `sys_user` (`id`, `name`, `age`, `email`, `gender`, `password`, `org_uri`, `type_code`, `group_id`, `descr`) VALUES
+  ('53f470d9f3914e5891ac97f98022499e','User Y',19,'user-y@inesa-f.com','F','PwdXXX19','eb1ddf3d125640968828034563a006d6','U','7ae82e0b502b4d5a989610ef470b14a1',NULL),
+  ('688f430710c042eeb44d01224af9c502','User A',21,'user-a@inesa.com','F','PwdYYY','eb1ddf3d125640968828034563a006d6','U',NULL,NULL),
+  ('7ae82e0b502b4d5a989610ef470b14a1','Group A',NULL,NULL,NULL,NULL,'eb1ddf3d125640968828034563a006d6','G',NULL,'The first Group'),
+  ('b84aaab7eb114773bae47b20b375d28b','User X',18,'user-x@inesa-f.com','M','PwdXXX','eb1ddf3d125640968828034563a006d6','U','7ae82e0b502b4d5a989610ef470b14a1',NULL);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,7 +1,6 @@
 package com.inesafujitsu.prototype.platform.service;
 
 import com.inesafujitsu.prototype.platform.model.Org;
-import com.inesafujitsu.prototype.platform.model.OrgType;
 
 import java.util.List;
 import java.util.Map;
@@ -18,5 +17,5 @@ public interface OrgService extends IService<Org> {
 
     Org update(String nodeUri, Map<String, Object> nodeMap);
 
-    List<OrgType> getSubTypes(String typeCode);
+    List<Org.Type> getSubTypes(String typeCode);
 }

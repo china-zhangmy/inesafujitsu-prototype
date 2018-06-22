@@ -7,11 +7,13 @@ import java.util.Map;
 
 public interface UserService extends IService<User> {
 
-    List<User> getAll(String orgUri);
+    List<User> getAll(String orgUri, User.Type userType, String groupId);
 
-    User create(String orgUri, Map<String, Object> userMap);
+    User createUser(String orgUri, String groupId, Map<String, Object> args);
 
-    User update(String orgUri, Map<String, Object> userMap);
+    User createGroup(String orgUri, Map<String, Object> args);
+
+    User update(String id, Map<String, Object> args);
 
     void remove(String id);
 }

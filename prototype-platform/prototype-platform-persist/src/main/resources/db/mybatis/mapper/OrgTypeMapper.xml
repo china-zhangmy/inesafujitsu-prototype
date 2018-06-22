@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.inesafujitsu.prototype.platform.persist.mapper.OrgTypeMapper">
-    <resultMap id="resultMap" type="OrgType">
+    <resultMap id="resultMap" type="com.inesafujitsu.prototype.platform.model.Org$Type">
         <id column="code" property="code" javaType="String"/>
         <result column="descr" property="descr" javaType="String"/>
 
         <collection property="children" resultMap="childResultMap" columnPrefix="child_"/>
     </resultMap>
 
-    <resultMap id="childResultMap" type="OrgType">
+    <resultMap id="childResultMap" type="com.inesafujitsu.prototype.platform.model.Org$Type">
         <id column="code" property="code" javaType="String"/>
         <result column="descr" property="descr" javaType="String"/>
     </resultMap>

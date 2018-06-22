@@ -2,6 +2,7 @@ package com.inesafujitsu.prototype.platform.model;
 
 import com.inesafujitsu.prototype.platform.commons.model.Entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +15,8 @@ public class Org extends Entity {
     private String uri;
 
     private Org parent;
-    private List<Org> children;
-    private List<User> users;
+    private List<Org> children = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -115,6 +116,38 @@ public class Org extends Entity {
             }
 
             return node;
+        }
+    }
+
+    public static class Type {
+
+        private String code;
+        private String descr;
+
+        private List<Type> children = new ArrayList<>();
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        public String getDescr() {
+            return descr;
+        }
+
+        public void setDescr(String descr) {
+            this.descr = descr;
+        }
+
+        public List<Type> getChildren() {
+            return children;
+        }
+
+        public void setChildren(List<Type> children) {
+            this.children = children;
         }
     }
 }

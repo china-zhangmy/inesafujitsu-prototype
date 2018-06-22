@@ -6,7 +6,6 @@ import com.inesafujitsu.prototype.platform.commons.exception.EntityRemoveNotAllo
 import com.inesafujitsu.prototype.platform.commons.support.IdGenerator;
 import com.inesafujitsu.prototype.platform.commons.support.StringUtils;
 import com.inesafujitsu.prototype.platform.model.Org;
-import com.inesafujitsu.prototype.platform.model.OrgType;
 import com.inesafujitsu.prototype.platform.persist.mapper.OrgMapper;
 import com.inesafujitsu.prototype.platform.persist.mapper.OrgTypeMapper;
 import com.inesafujitsu.prototype.platform.persist.mapper.abs.AbstractMapper;
@@ -40,7 +39,7 @@ public class OrgServiceImpl extends AbstractService<Org> implements OrgService {
         String companyId = IdGenerator.generateId();
 
         nodeMap.put("id", companyId);
-        OrgType topOrgType = orgTypeMapper.getTop();
+        Org.Type topOrgType = orgTypeMapper.getTop();
         nodeMap.put("typeCode", topOrgType != null ? topOrgType.getCode() : "C");
 
         Org company = new Org.Builder(nodeMap).build();
@@ -104,8 +103,8 @@ public class OrgServiceImpl extends AbstractService<Org> implements OrgService {
     }
 
     @Override
-    public List<OrgType> getSubTypes(String typeCode) {
-        OrgType currNodeType = orgTypeMapper.getOne(typeCode);
+    public List<Org.Type> getSubTypes(String typeCode) {
+        Org.Type currNodeType = orgTypeMapper.getOne(typeCode);
         return currNodeType.getChildren();
     }
 

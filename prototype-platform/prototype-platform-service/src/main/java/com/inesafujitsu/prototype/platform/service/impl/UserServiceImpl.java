@@ -1,5 +1,6 @@
 package com.inesafujitsu.prototype.platform.service.impl;
 
+import com.inesafujitsu.prototype.platform.commons.exception.EntityNotPersistedException;
 import com.inesafujitsu.prototype.platform.commons.support.IdGenerator;
 import com.inesafujitsu.prototype.platform.commons.support.StringUtils;
 import com.inesafujitsu.prototype.platform.model.User;
@@ -10,6 +11,7 @@ import com.inesafujitsu.prototype.platform.service.AbstractService;
 import com.inesafujitsu.prototype.platform.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,35 +29,59 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     }
 
     @Override
-    public List<User> getAll(String orgUri) {
-        return userMapper.getAll(orgUri);
+    public List<User> getAll(String orgUri, User.Type userType, String groupId) {
+        return userMapper.getAll(orgUri, userType, groupId);
     }
 
     @Override
-    public User create(String orgUri, Map<String, Object> userMap) {
+    public User createUser(String orgUri, String groupId, Map<String, Object> args) {
         if (StringUtils.isBlank(orgUri) || orgMapper.findByUri(orgUri) == null) {
             throw new RuntimeException("A user should be created under a given organization node!");
         }
 
-        String userId = IdGenerator.generateId();
+        User group = getOne(groupId);
+        if (StringUtils.isNotBlank(groupId) && (group == null || !User.Type.GROUP.equals(group.getType()))) {
+            throw new EntityNotPersistedException("Group", groupId);
+        }
 
-        userMap.put("id", userId);
-        userMap.put("org", orgMapper.findByUri(orgUri));
+        String id = IdGenerator.generateId();
 
-        User user = new User.Builder(userMap).build();
+        args = new HashMap<>(args);
+        args.put("id", id);
+        args.put("type", User.Type.USER);
+        args.put("org", orgMapper.findByUri(orgUri));
+        args.put("group", group);
+        User user = new User.Builder(args).build();
 
         insert(user);
 
-        return getOne(userId);
+        return getOne(id);
     }
 
     @Override
-    public User update(String orgUri, Map<String, Object> userMap) {
+    public User createGroup(String orgUri, Map<String, Object> args) {
         if (StringUtils.isBlank(orgUri) || orgMapper.findByUri(orgUri) == null) {
-            throw new RuntimeException("A user should be updated under a given organization node!");
+            throw new RuntimeException("A user should be created under a given organization node!");
         }
 
-        User user = new User.Builder(userMap).build();
+        String id = IdGenerator.generateId();
+
+        args = new HashMap<>(args);
+        args.put("id", id);
+        args.put("type", User.Type.GROUP);
+        args.put("org", orgMapper.findByUri(orgUri));
+        User group = new User.Builder(args).build();
+
+        insert(group);
+
+        return getOne(id);
+    }
+
+    @Override
+    public User update(String id, Map<String, Object> args) {
+        args = new HashMap<>(args);
+        args.put("id", id);
+        User user = new User.Builder(args).build();
 
         update(user);
 

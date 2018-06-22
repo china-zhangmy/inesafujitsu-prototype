@@ -2,6 +2,7 @@ package com.inesafujitsu.prototype.platform.persist.mapper;
 
 import com.inesafujitsu.prototype.platform.model.User;
 import com.inesafujitsu.prototype.platform.persist.mapper.abs.AbstractMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,6 +23,6 @@ public interface UserMapper extends AbstractMapper<User> {
     //    @Delete("DELETE FROM user WHERE id =#{id}")
 //    void delete(String id);
 
-    List<User> getAll(String orgUri);
+    List<User> getAll(@Param("orgUri") String orgUri, @Param("userType") User.Type userType, @Param("groupId") String groupId);
 
 }

@@ -3,14 +3,19 @@
 <mapper namespace="com.inesafujitsu.prototype.platform.persist.mapper.UserMapper">
     <resultMap id="resultMap" type="User">
         <id column="id" property="id" javaType="String"/>
+        <result column="type_code" property="type" javaType="com.inesafujitsu.prototype.platform.model.User$Type"
+                typeHandler="UserTypeTypeHandler"/>
         <result column="name" property="name" javaType="String"/>
+        <result column="descr" property="descr" javaType="String"/>
         <result column="password" property="password" javaType="String"/>
         <result column="age" property="age" javaType="Integer"/>
         <result column="email" property="email" javaType="String"/>
-        <result column="gender" property="gender" javaType="Gender"
+        <result column="gender" property="gender" javaType="com.inesafujitsu.prototype.platform.model.User$Gender"
                 typeHandler="GenderTypeHandler"/>
 
         <association property="org" resultMap="orgResultMap" columnPrefix="org_"/>
+        <association property="group" resultMap="groupResultMap" columnPrefix="group_"/>
+
     </resultMap>
 
     <resultMap id="orgResultMap" type="Org">
@@ -22,60 +27,84 @@
         <result column="uri" property="uri" javaType="String"/>
     </resultMap>
 
+    <resultMap id="groupResultMap" type="User">
+        <id column="id" property="id" javaType="String"/>
+        <result column="type_code" property="type" javaType="com.inesafujitsu.prototype.platform.model.User$Type"
+                typeHandler="UserTypeTypeHandler"/>
+        <result column="name" property="name" javaType="String"/>
+        <result column="descr" property="descr" javaType="String"/>
+    </resultMap>
+
     <sql id="columnListLazy">
         id,
+        type_code,
         name,
+        descr,
         password,
         age,
         email,
         gender,
-        org_uri
+        org_uri,
+        group_id
     </sql>
 
     <sql id="columnListEager">
-        user.id,
-        user.name,
-        user.password,
-        user.age,
-        user.email,
-        user.gender,
+        u.id,
+        u.type_code,
+        u.name,
+        u.descr,
+        u.password,
+        u.age,
+        u.email,
+        u.gender,
         org.id AS org_id,
         org.name AS org_name,
         org.descr AS org_descr,
         org.type_code AS org_type_code,
         org.level AS org_level,
-        org.uri AS org_uri
+        org.uri AS org_uri,
+        g.id AS group_id,
+        g.type_code AS group_type_code,
+        g.name AS group_name,
+        g.descr AS group_descr
     </sql>
 
     <select id="getAll" resultMap="resultMap">
         SELECT
         <include refid="columnListLazy"/>
-        FROM sys_user user
-        WHERE user.org_uri = #{orgUri}
+        FROM sys_user u
+        <where>
+            u.org_uri = #{orgUri} AND u.type_code = #{userType, typeHandler=UserTypeTypeHandler}
+            <if test="groupId != null">AND u.group_id = #{groupId}</if>
+        </where>
     </select>
 
     <select id="getOne" parameterType="String" resultMap="resultMap">
         SELECT
         <include refid="columnListEager"/>
-        FROM sys_user user
-        INNER JOIN sys_org org ON user.org_uri = org.uri
-        WHERE user.id = #{id}
+        FROM sys_user u
+        INNER JOIN sys_org org ON u.org_uri = org.uri
+        LEFT JOIN sys_user g on u.group_id = g.id
+        WHERE u.id = #{id}
     </select>
 
     <insert id="insert" parameterType="User">
         INSERT INTO sys_user (<include refid="columnListLazy"/>)
-        VALUES (#{id}, #{name}, #{password}, #{age}, #{email}, #{gender, typeHandler=GenderTypeHandler}, #{org.uri})
+        VALUES (#{id}, #{type, typeHandler=UserTypeTypeHandler}, #{name}, #{descr}, #{password}, #{age}, #{email},
+        #{gender, typeHandler=GenderTypeHandler}, #{org.uri}, #{group.id})
     </insert>
 
     <update id="update" parameterType="User">
         UPDATE sys_user
         <set>
             <if test="name != null">name = #{name},</if>
+            <if test="descr != null">descr = #{descr},</if>
             <if test="password != null">password = #{password},</if>
             <if test="age != null">age = #{age},</if>
             <if test="email != null">email = #{email},</if>
             <if test="gender != null">gender = #{gender, typeHandler=GenderTypeHandler},</if>
             <if test="org != null">org_uri = #{org.uri},</if>
+            <if test="group != null">group_id = #{group.id},</if>
         </set>
         WHERE
         id = #{id}
