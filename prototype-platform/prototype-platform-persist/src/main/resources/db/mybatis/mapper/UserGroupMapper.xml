@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.inesafujitsu.prototype.platform.persist.mapper.UserGroupMapper">
+    <resultMap id="resultMap" type="UserGroup">
+        <id column="id" property="id" javaType="String"/>
+        <result column="name" property="name" javaType="String"/>
+        <result column="descr" property="descr" javaType="String"/>
+
+        <association property="org" resultMap="orgResultMap" columnPrefix="o_"/>
+        <collection property="users" resultMap="userResultMap" columnPrefix="u_"/>
+
+    </resultMap>
+
+    <resultMap id="orgResultMap" type="Org">
+        <id column="id" property="id" javaType="String"/>
+        <result column="name" property="name" javaType="String"/>
+        <result column="descr" property="descr" javaType="String"/>
+        <result column="type_code" property="typeCode" javaType="String"/>
+        <result column="level" property="level" javaType="Integer"/>
+        <result column="uri" property="uri" javaType="String"/>
+    </resultMap>
+
+    <resultMap id="userResultMap" type="User">
+        <id column="id" property="id" javaType="String"/>
+        <result column="name" property="name" javaType="String"/>
+        <result column="password" property="password" javaType="String"/>
+        <result column="age" property="age" javaType="Integer"/>
+        <result column="email" property="email" javaType="String"/>
+        <result column="gender" property="gender" javaType="com.inesafujitsu.prototype.platform.model.User$Gender"
+                typeHandler="GenderTypeHandler"/>
+    </resultMap>
+
+    <sql id="columnListLazy">
+        id,
+        name,
+        descr,
+        org_uri
+    </sql>
+
+    <sql id="columnListEager">
+        g.id,
+        g.name,
+        g.descr,
+        o.id AS o_id,
+        o.name AS o_name,
+        o.descr AS o_descr,
+        o.type_code AS o_type_code,
+        o.level AS o_level,
+        o.uri AS o_uri,
+        u.id AS u_id,
+        u.name AS u_name,
+        u.password AS u_password,
+        u.age AS u_age,
+        u.email AS u_email,
+        u.gender AS u_gender
+    </sql>
+
+    <select id="getAll" resultMap="resultMap">
+        SELECT
+        <include refid="columnListLazy"/>
+        FROM sys_user_group g
+        WHERE g.org_uri = #{orgUri}
+    </select>
+
+    <select id="getOne" parameterType="String" resultMap="resultMap">
+        SELECT
+        <include refid="columnListEager"/>
+        FROM sys_user_group g
+        LEFT JOIN sys_org o ON g.org_uri = o.uri
+        LEFT JOIN sys_user u ON g.id = u.group_id
+        WHERE g.id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="User">
+        INSERT INTO sys_user_group (<include refid="columnListLazy"/>)
+        VALUES (#{id}, #{name}, #{descr}, #{org.uri})
+    </insert>
+
+    <update id="update" parameterType="User">
+        UPDATE sys_user_group
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="descr != null">descr = #{descr},</if>
+            <if test="org != null">org_uri = #{org.uri},</if>
+        </set>
+        WHERE
+        id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="String">
+       DELETE FROM sys_user_group WHERE id = #{id}
+    </delete>
+
+</mapper>

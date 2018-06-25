@@ -19,10 +19,10 @@ import java.util.Map;
 public class OrgServiceImpl extends AbstractService<Org> implements OrgService {
 
     @Autowired
-    OrgMapper orgMapper;
+    private OrgMapper orgMapper;
 
     @Autowired
-    OrgTypeMapper orgTypeMapper;
+    private OrgTypeMapper orgTypeMapper;
 
     @Override
     protected AbstractMapper<Org> getMapper() {

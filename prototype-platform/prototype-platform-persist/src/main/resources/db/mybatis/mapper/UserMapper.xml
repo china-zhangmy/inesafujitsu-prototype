@@ -3,79 +3,86 @@
 <mapper namespace="com.inesafujitsu.prototype.platform.persist.mapper.UserMapper">
     <resultMap id="resultMap" type="User">
         <id column="id" property="id" javaType="String"/>
-        <result column="type_code" property="type" javaType="com.inesafujitsu.prototype.platform.model.User$Type"
-                typeHandler="UserTypeTypeHandler"/>
         <result column="name" property="name" javaType="String"/>
-        <result column="descr" property="descr" javaType="String"/>
         <result column="password" property="password" javaType="String"/>
         <result column="age" property="age" javaType="Integer"/>
         <result column="email" property="email" javaType="String"/>
         <result column="gender" property="gender" javaType="com.inesafujitsu.prototype.platform.model.User$Gender"
                 typeHandler="GenderTypeHandler"/>
 
-        <association property="org" resultMap="orgResultMap" columnPrefix="org_"/>
-        <association property="group" resultMap="groupResultMap" columnPrefix="group_"/>
-
+        <association property="org" resultMap="orgResultMap" columnPrefix="o_"/>
+        <association property="group" resultMap="groupResultMap" columnPrefix="g_"/>
+        <association property="superior" resultMap="superiorResultMap" columnPrefix="s_"/>
     </resultMap>
 
     <resultMap id="orgResultMap" type="Org">
         <id column="id" property="id" javaType="String"/>
         <result column="name" property="name" javaType="String"/>
         <result column="descr" property="descr" javaType="String"/>
-        <result column="type_code" property="typeCode" javaType="String"/>
         <result column="level" property="level" javaType="Integer"/>
         <result column="uri" property="uri" javaType="String"/>
     </resultMap>
 
-    <resultMap id="groupResultMap" type="User">
+    <resultMap id="groupResultMap" type="UserGroup">
         <id column="id" property="id" javaType="String"/>
-        <result column="type_code" property="type" javaType="com.inesafujitsu.prototype.platform.model.User$Type"
-                typeHandler="UserTypeTypeHandler"/>
         <result column="name" property="name" javaType="String"/>
         <result column="descr" property="descr" javaType="String"/>
     </resultMap>
 
+    <resultMap id="superiorResultMap" type="User">
+        <id column="id" property="id" javaType="String"/>
+        <result column="name" property="name" javaType="String"/>
+        <result column="password" property="password" javaType="String"/>
+        <result column="age" property="age" javaType="Integer"/>
+        <result column="email" property="email" javaType="String"/>
+        <result column="gender" property="gender" javaType="com.inesafujitsu.prototype.platform.model.User$Gender"
+                typeHandler="GenderTypeHandler"/>
+    </resultMap>
+
     <sql id="columnListLazy">
         id,
-        type_code,
         name,
-        descr,
         password,
         age,
         email,
         gender,
         org_uri,
-        group_id
+        group_id,
+        superior_id
     </sql>
 
     <sql id="columnListEager">
         u.id,
-        u.type_code,
         u.name,
-        u.descr,
         u.password,
         u.age,
         u.email,
         u.gender,
-        org.id AS org_id,
-        org.name AS org_name,
-        org.descr AS org_descr,
-        org.type_code AS org_type_code,
-        org.level AS org_level,
-        org.uri AS org_uri,
-        g.id AS group_id,
-        g.type_code AS group_type_code,
-        g.name AS group_name,
-        g.descr AS group_descr
+        o.id AS o_id,
+        o.name AS o_name,
+        o.descr AS o_descr,
+        o.type_code AS o_type_code,
+        o.level AS o_level,
+        o.uri AS o_uri,
+        g.id AS g_id,
+        g.name AS g_name,
+        g.descr AS g_descr,
+        s.id AS s_id,
+        s.name AS s_name,
+        s.password AS s_password,
+        s.age AS s_age,
+        s.email AS s_email,
+        s.gender AS s_gender
     </sql>
 
     <select id="getAll" resultMap="resultMap">
         SELECT
         <include refid="columnListLazy"/>
-        FROM sys_user u
+        FROM sys_user
         <where>
-            u.org_uri = #{orgUri} AND u.type_code = #{userType, typeHandler=UserTypeTypeHandler}
-            <if test="groupId != null">AND u.group_id = #{groupId}</if>
+            org_uri = #{orgUri}
+            <if test="groupId != null">AND group_id = #{groupId}</if>
+            <if test="groupId == null">AND group_id is NULL</if>
         </where>
     </select>
 
@@ -83,31 +90,39 @@
         SELECT
         <include refid="columnListEager"/>
         FROM sys_user u
-        INNER JOIN sys_org org ON u.org_uri = org.uri
-        LEFT JOIN sys_user g on u.group_id = g.id
+        LEFT JOIN sys_org o ON u.org_uri = o.uri
+        LEFT JOIN sys_user_group g ON u.group_id = g.id
+        LEFT JOIN sys_user s ON u.superior_id = s.id
         WHERE u.id = #{id}
     </select>
 
     <insert id="insert" parameterType="User">
         INSERT INTO sys_user (<include refid="columnListLazy"/>)
-        VALUES (#{id}, #{type, typeHandler=UserTypeTypeHandler}, #{name}, #{descr}, #{password}, #{age}, #{email},
-        #{gender, typeHandler=GenderTypeHandler}, #{org.uri}, #{group.id})
+        VALUES (#{id}, #{name}, #{password}, #{age}, #{email}, #{gender, typeHandler=GenderTypeHandler},
+        #{org.uri}, #{group.id}, #{superior.id})
     </insert>
 
     <update id="update" parameterType="User">
         UPDATE sys_user
         <set>
             <if test="name != null">name = #{name},</if>
-            <if test="descr != null">descr = #{descr},</if>
             <if test="password != null">password = #{password},</if>
             <if test="age != null">age = #{age},</if>
             <if test="email != null">email = #{email},</if>
             <if test="gender != null">gender = #{gender, typeHandler=GenderTypeHandler},</if>
             <if test="org != null">org_uri = #{org.uri},</if>
             <if test="group != null">group_id = #{group.id},</if>
+            <if test="superior != null">superior_id = #{superior.id},</if>
         </set>
         WHERE
         id = #{id}
+    </update>
+
+    <update id="batchUpdate" parameterType="User">
+        UPDATE sys_user
+        SET org_uri = #{destOrgUri}
+        WHERE
+        org_uri = #{sourceOrgUri} AND group_id = #{groupId}
     </update>
 
     <delete id="delete" parameterType="String">

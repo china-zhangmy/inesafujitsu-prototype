@@ -17,7 +17,7 @@ import java.util.Map;
 public class OrgResource {
 
     @Autowired
-    OrgService orgService;
+    private OrgService orgService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -43,7 +43,7 @@ public class OrgResource {
     public static class URISpecificOrgResource {
 
         @Autowired
-        OrgService orgService;
+        private OrgService orgService;
 
         @GET
         @Produces(MediaType.APPLICATION_JSON)
@@ -90,9 +90,9 @@ public class OrgResource {
             return UserResource.class;
         }
 
-        @Path(Constants.SUB_RESOURCE_LOCATOR_GROUPS)
-        public Class<GroupResource> groupResourceLocator() {
-            return GroupResource.class;
+        @Path(Constants.SUB_RESOURCE_LOCATOR_USER_GROUPS)
+        public Class<UserGroupResource> groupResourceLocator() {
+            return UserGroupResource.class;
         }
 
     }

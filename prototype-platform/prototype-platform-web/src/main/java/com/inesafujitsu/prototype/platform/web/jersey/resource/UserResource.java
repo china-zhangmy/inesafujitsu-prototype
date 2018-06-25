@@ -21,13 +21,13 @@ import java.util.Map;
 public class UserResource {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<User> getAll(@PathParam(Constants.PATH_PARAM_URI) String orgUri,
                              @PathParam(Constants.PATH_PARAM_GROUP_ID) String groupId) {
-        return userService.getAll(orgUri, User.Type.USER, groupId);
+        return userService.getAll(orgUri, groupId);
     }
 
     @GET
@@ -45,17 +45,20 @@ public class UserResource {
                        @NotNull String requestBody) {
         Map<String, Object> args = HttpUtils.parseRequestBody(requestBody);
 
-        return userService.createUser(orgUri, groupId, args);
+        return userService.create(orgUri, groupId, args);
     }
 
     @PUT
+    @Path(Constants.SUB_RESOURCE_USER_ID)
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public User update(@PathParam(Constants.PATH_PARAM_USER_ID) String id,
+    public User update(@PathParam(Constants.PATH_PARAM_URI) String orgUri,
+                       @PathParam(Constants.PATH_PARAM_GROUP_ID) String groupId,
+                       @PathParam(Constants.PATH_PARAM_USER_ID) String id,
                        @NotNull String requestBody) {
         Map<String, Object> args = HttpUtils.parseRequestBody(requestBody);
 
-        return userService.update(id, args);
+        return userService.update(orgUri, groupId, id, args);
     }
 
     @DELETE

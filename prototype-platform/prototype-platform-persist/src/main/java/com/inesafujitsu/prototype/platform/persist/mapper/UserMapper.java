@@ -23,6 +23,7 @@ public interface UserMapper extends AbstractMapper<User> {
     //    @Delete("DELETE FROM user WHERE id =#{id}")
 //    void delete(String id);
 
-    List<User> getAll(@Param("orgUri") String orgUri, @Param("userType") User.Type userType, @Param("groupId") String groupId);
+    List<User> getAll(@Param("orgUri") String orgUri, @Param("groupId") String groupId);
 
+    void batchUpdate(@Param("sourceOrgUri") String sourceOrgUri, @Param("groupId") String groupId, @Param("destOrgUri") String destOrgUri);
 }

@@ -1,8 +1,8 @@
 package com.inesafujitsu.prototype.platform.web.jersey.resource;
 
 import com.inesafujitsu.prototype.platform.commons.support.HttpUtils;
-import com.inesafujitsu.prototype.platform.model.User;
-import com.inesafujitsu.prototype.platform.service.UserService;
+import com.inesafujitsu.prototype.platform.model.UserGroup;
+import com.inesafujitsu.prototype.platform.service.UserGroupService;
 import com.inesafujitsu.prototype.platform.web.jersey.support.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,38 +15,28 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.Map;
 
-//@Path(Constants.ROOT_RESOURCE_GROUPS)
+//@Path(Constants.ROOT_RESOURCE_USER_GROUPS)
 @Component
 @Singleton
-public class GroupResource {
+public class UserGroupResource {
 
     @Autowired
-    UserService userService;
+    private UserGroupService userGroupService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<User> getAll(@PathParam(Constants.PATH_PARAM_URI) String orgUri) {
-        return userService.getAll(orgUri, User.Type.GROUP, null);
+    public List<UserGroup> getAll(@PathParam(Constants.PATH_PARAM_URI) String orgUri) {
+        return userGroupService.getAll(orgUri);
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public User create(@PathParam(Constants.PATH_PARAM_URI) String orgUri,
-                       @NotNull String requestBody) {
+    public UserGroup create(@PathParam(Constants.PATH_PARAM_URI) String orgUri,
+                            @NotNull String requestBody) {
         Map<String, Object> args = HttpUtils.parseRequestBody(requestBody);
 
-        return userService.createGroup(orgUri, args);
-    }
-
-    @PUT
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public User update(@PathParam(Constants.PATH_PARAM_URI) String nodeUri,
-                       @NotNull String requestBody) {
-        Map<String, Object> args = HttpUtils.parseRequestBody(requestBody);
-
-        return userService.update(nodeUri, args);
+        return userGroupService.create(orgUri, args);
     }
 
     @Path(Constants.SUB_RESOURCE_LOCATOR_GROUP_ID)
@@ -58,19 +48,30 @@ public class GroupResource {
     public static class IdSpecificGroupResource {
 
         @Autowired
-        UserService userService;
+        private UserGroupService userGroupService;
 
         @GET
         @Produces(MediaType.APPLICATION_JSON)
-        public User getOne(@PathParam(Constants.PATH_PARAM_GROUP_ID) String id) {
-            return userService.getOne(id);
+        public UserGroup getOne(@PathParam(Constants.PATH_PARAM_GROUP_ID) String id) {
+            return userGroupService.getOne(id);
+        }
+
+        @PUT
+        @Produces(MediaType.APPLICATION_JSON)
+        @Consumes(MediaType.APPLICATION_JSON)
+        public UserGroup update(@PathParam(Constants.PATH_PARAM_URI) String orgUri,
+                                @PathParam(Constants.PATH_PARAM_GROUP_ID) String id,
+                                @NotNull String requestBody) {
+            Map<String, Object> args = HttpUtils.parseRequestBody(requestBody);
+
+            return userGroupService.update(orgUri, id, args);
         }
 
         @DELETE
         @Produces(MediaType.APPLICATION_JSON)
         @Consumes(MediaType.APPLICATION_JSON)
         public Response remove(@PathParam(Constants.PATH_PARAM_GROUP_ID) String id) {
-            userService.remove(id);
+            userGroupService.remove(id);
 
             return Response.ok().build();
         }

@@ -7,12 +7,12 @@ public class Constants {
 
     public static final String ROOT_RESOURCE_HELLO_WORLD = "hello_world";
     public static final String ROOT_RESOURCE_ORGANIZATIONS = "organizations";
-//    public static final String ROOT_RESOURCE_GROUPS = "groups";
+//    public static final String ROOT_RESOURCE_USER_GROUPS = "groups";
 //    public static final String ROOT_RESOURCE_USERS = "users";
 //    public static final String ROOT_RESOURCE_USERS = "organizations/{uri: ([a-z0-9]{32}\\/)*[a-z0-9]{32}}/users";
 
     public static final String SUB_RESOURCE_LOCATOR_URI = "{uri: ([a-z0-9]{32}\\/)*[a-z0-9]{32}}";
-    public static final String SUB_RESOURCE_LOCATOR_GROUPS = "groups";
+    public static final String SUB_RESOURCE_LOCATOR_USER_GROUPS = "groups";
     public static final String SUB_RESOURCE_LOCATOR_USERS = "users";
     public static final String SUB_RESOURCE_LOCATOR_GROUP_ID = "{group_id}";
 
