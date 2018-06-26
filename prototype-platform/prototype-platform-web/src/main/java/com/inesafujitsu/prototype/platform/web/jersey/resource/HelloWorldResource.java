@@ -1,6 +1,6 @@
 package com.inesafujitsu.prototype.platform.web.jersey.resource;
 
-import com.inesafujitsu.prototype.platform.service.HelloWorldService;
+import com.inesafujitsu.prototype.platform.service.trial.HelloWorldService;
 import com.inesafujitsu.prototype.platform.web.jersey.support.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 

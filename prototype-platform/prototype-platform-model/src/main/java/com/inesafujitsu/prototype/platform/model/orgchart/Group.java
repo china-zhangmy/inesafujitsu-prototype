@@ -1,4 +1,4 @@
-package com.inesafujitsu.prototype.platform.model;
+package com.inesafujitsu.prototype.platform.model.orgchart;
 
 import com.inesafujitsu.prototype.platform.commons.model.Entity;
 
@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class UserGroup extends Entity {
+public class Group extends Entity {
 
     private String name;
     private String descr;
 
     private Org org;
-    private List<UserGroup> users = new ArrayList<>();
+    private List<Group> users = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -38,29 +38,29 @@ public class UserGroup extends Entity {
         this.org = org;
     }
 
-    public List<UserGroup> getUsers() {
+    public List<Group> getUsers() {
         return users;
     }
 
-    public void setUsers(List<UserGroup> users) {
+    public void setUsers(List<Group> users) {
         this.users = users;
     }
 
-    public static class Builder extends Entity.Builder<UserGroup> {
+    public static class Builder extends Entity.Builder<Group> {
 
         public Builder(Map<String, Object> args) {
             super(args);
         }
 
         @Override
-        public UserGroup build() {
-            UserGroup userGroup = super.build(UserGroup.class);
+        public Group build() {
+            Group group = super.build(Group.class);
 
-            userGroup.setName((String) args.get("name"));
-            userGroup.setDescr((String) args.get("descr"));
-            userGroup.setOrg((Org) args.get("org"));
+            group.setName((String) args.get("name"));
+            group.setDescr((String) args.get("descr"));
+            group.setOrg((Org) args.get("org"));
 
-            return userGroup;
+            return group;
         }
     }
 

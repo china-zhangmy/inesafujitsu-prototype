@@ -1,13 +1,15 @@
 package com.inesafujitsu.prototype.platform.service.context;
 
-import com.inesafujitsu.prototype.platform.service.HelloWorldService;
-import com.inesafujitsu.prototype.platform.service.OrgService;
-import com.inesafujitsu.prototype.platform.service.UserGroupService;
-import com.inesafujitsu.prototype.platform.service.UserService;
-import com.inesafujitsu.prototype.platform.service.impl.HelloWorldServiceImpl;
-import com.inesafujitsu.prototype.platform.service.impl.OrgServiceImpl;
-import com.inesafujitsu.prototype.platform.service.impl.UserGroupServiceImpl;
-import com.inesafujitsu.prototype.platform.service.impl.UserServiceImpl;
+import com.inesafujitsu.prototype.platform.service.ctrl.PrivilegeService;
+import com.inesafujitsu.prototype.platform.service.ctrl.impl.PrivilegeServiceImpl;
+import com.inesafujitsu.prototype.platform.service.orgchart.GroupService;
+import com.inesafujitsu.prototype.platform.service.orgchart.OrgService;
+import com.inesafujitsu.prototype.platform.service.orgchart.UserService;
+import com.inesafujitsu.prototype.platform.service.orgchart.impl.GroupServiceImpl;
+import com.inesafujitsu.prototype.platform.service.orgchart.impl.OrgServiceImpl;
+import com.inesafujitsu.prototype.platform.service.orgchart.impl.UserServiceImpl;
+import com.inesafujitsu.prototype.platform.service.trial.HelloWorldService;
+import com.inesafujitsu.prototype.platform.service.trial.impl.HelloWorldServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -22,13 +24,18 @@ public class ApplicationContext {
     }
 
     @Bean
-    public UserGroupService userGroupService() {
-        return new UserGroupServiceImpl();
+    public GroupService groupService() {
+        return new GroupServiceImpl();
     }
 
     @Bean
     public OrgService orgService() {
         return new OrgServiceImpl();
+    }
+
+    @Bean
+    public PrivilegeService privilegeService() {
+        return new PrivilegeServiceImpl();
     }
 
     @Bean

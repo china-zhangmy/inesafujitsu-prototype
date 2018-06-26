@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.inesafujitsu.prototype.platform.persist.mapper.orgchart.OrgMapper">
+    <resultMap id="resultMap" type="Org">
+        <id column="id" property="id" javaType="String"/>
+        <result column="name" property="name" javaType="String"/>
+        <result column="descr" property="descr" javaType="String"/>
+        <result column="type_code" property="typeCode" javaType="String"/>
+        <result column="level" property="level" javaType="Integer"/>
+        <result column="uri" property="uri" javaType="String"/>
+
+        <association property="parent" resultMap="commonResultMap" columnPrefix="parent_"/>
+        <collection property="children" resultMap="commonResultMap" columnPrefix="child_"/>
+        <collection property="groups" resultMap="groupResultMap" columnPrefix="g_"/>
+        <collection property="users" resultMap="userResultMap" columnPrefix="u_"/>
+    </resultMap>
+
+    <resultMap id="commonResultMap" type="Org">
+        <id column="id" property="id" javaType="String"/>
+        <result column="name" property="name" javaType="String"/>
+        <result column="descr" property="descr" javaType="String"/>
+        <result column="type_code" property="typeCode" javaType="String"/>
+        <result column="level" property="level" javaType="Integer"/>
+        <result column="uri" property="uri" javaType="String"/>
+    </resultMap>
+
+    <resultMap id="groupResultMap" type="Group">
+        <id column="id" property="id" javaType="String"/>
+        <result column="name" property="name" javaType="String"/>
+        <result column="descr" property="descr" javaType="String"/>
+    </resultMap>
+
+    <resultMap id="userResultMap" type="User">
+        <id column="id" property="id" javaType="String"/>
+        <result column="name" property="name" javaType="String"/>
+        <result column="password" property="password" javaType="String"/>
+        <result column="age" property="age" javaType="Integer"/>
+        <result column="email" property="email" javaType="String"/>
+        <result column="gender" property="gender"
+                javaType="com.inesafujitsu.prototype.platform.model.orgchart.User$Gender"
+                typeHandler="GenderTypeHandler"/>
+    </resultMap>
+
+    <sql id="columnListLazy">
+        id,
+        name,
+        descr,
+        type_code,
+        level,
+        uri,
+        parent_id
+    </sql>
+
+    <sql id="columnListEager">
+        self.id,
+        self.name,
+        self.descr,
+        self.type_code,
+        self.level,
+        self.uri,
+        parent.id AS parent_id,
+        parent.name AS parent_name,
+        parent.descr AS parent_descr,
+        parent.type_code AS parent_type_code,
+        parent.level AS parent_level,
+        parent.uri AS parent_uri,
+        child.id AS child_id,
+        child.name AS child_name,
+        child.descr AS child_descr,
+        child.type_code AS child_type_code,
+        child.level AS child_level,
+        child.uri AS child_uri,
+        g.id AS g_id,
+        g.name AS g_name,
+        g.descr AS g_descr,
+        u.id AS u_id,
+        u.name AS u_name,
+        u.password AS u_password,
+        u.age AS u_age,
+        u.email AS u_email,
+        u.gender AS u_gender
+    </sql>
+
+    <select id="getAll" parameterType="String" resultMap="resultMap">
+        SELECT
+        <include refid="columnListLazy"/>
+        FROM sys_org
+        <where>
+            <if test="typeCode != null">type_code = #{typeCode}</if>
+        </where>
+    </select>
+
+    <select id="getOne" parameterType="String" resultMap="resultMap">
+        SELECT
+        <include refid="columnListEager"/>
+        FROM sys_org self
+        LEFT JOIN sys_org parent ON self.parent_id = parent.id
+        LEFT JOIN sys_org child ON self.id = child.parent_id
+        LEFT JOIN sys_user_group g ON self.uri = g.org_uri
+        LEFT JOIN sys_user u ON self.uri = u.org_uri AND u.group_id IS NULL
+        WHERE self.id = #{id}
+    </select>
+
+    <select id="findByUri" parameterType="String" resultMap="resultMap">
+        SELECT
+        <include refid="columnListEager"/>
+        FROM sys_org self
+        LEFT JOIN sys_org parent ON self.parent_id = parent.id
+        LEFT JOIN sys_org child ON self.id = child.parent_id
+        LEFT JOIN sys_user_group g ON self.uri = g.org_uri
+        LEFT JOIN sys_user u ON self.uri = u.org_uri AND u.group_id IS NULL
+        WHERE self.uri = #{uri}
+    </select>
+
+    <insert id="insert" parameterType="Org">
+        INSERT INTO sys_org (<include refid="columnListLazy"/>)
+        VALUES (#{id}, #{name}, #{descr}, #{typeCode}, #{level}, #{uri}, #{parent.id})
+    </insert>
+
+    <update id="update" parameterType="Org">
+        UPDATE sys_org
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="descr != null">descr = #{descr},</if>
+            <if test="parent != null">parent_id = #{parent.id},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="String">
+       DELETE FROM sys_org WHERE id = #{id}
+    </delete>
+
+</mapper>

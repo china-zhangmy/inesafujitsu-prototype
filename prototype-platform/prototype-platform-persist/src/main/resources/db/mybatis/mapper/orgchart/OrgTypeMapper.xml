@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.inesafujitsu.prototype.platform.persist.mapper.OrgTypeMapper">
-    <resultMap id="resultMap" type="com.inesafujitsu.prototype.platform.model.Org$Type">
+<mapper namespace="com.inesafujitsu.prototype.platform.persist.mapper.orgchart.OrgTypeMapper">
+    <resultMap id="resultMap" type="com.inesafujitsu.prototype.platform.model.orgchart.Org$Type">
         <id column="code" property="code" javaType="String"/>
         <result column="descr" property="descr" javaType="String"/>
 
         <collection property="children" resultMap="childResultMap" columnPrefix="child_"/>
     </resultMap>
 
-    <resultMap id="childResultMap" type="com.inesafujitsu.prototype.platform.model.Org$Type">
+    <resultMap id="childResultMap" type="com.inesafujitsu.prototype.platform.model.orgchart.Org$Type">
         <id column="code" property="code" javaType="String"/>
         <result column="descr" property="descr" javaType="String"/>
     </resultMap>
@@ -25,14 +25,14 @@
         SELECT
         <include refid="columnListEager"/>
         FROM sys_org_type self LEFT JOIN sys_org_type child ON self.code = child.parent_code
-        WHERE self.code = #{code} and (child.invalid = 0 || child.invalid is NULL);
+        WHERE self.code = #{code} AND (child.invalid = 0 || child.invalid IS NULL);
     </select>
 
     <select id="getTop" resultMap="resultMap">
         SELECT
         <include refid="columnListLazy"/>
         FROM sys_org_type self
-        WHERE self.parent_code is NULL and (self.invalid = 0 || self.invalid is NULL);
+        WHERE self.parent_code IS NULL AND (self.invalid = 0 || self.invalid IS NULL);
     </select>
 
 </mapper>

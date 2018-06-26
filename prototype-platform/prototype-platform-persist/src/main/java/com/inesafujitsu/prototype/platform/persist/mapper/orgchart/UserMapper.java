@@ -1,6 +1,6 @@
-package com.inesafujitsu.prototype.platform.persist.mapper;
+package com.inesafujitsu.prototype.platform.persist.mapper.orgchart;
 
-import com.inesafujitsu.prototype.platform.model.User;
+import com.inesafujitsu.prototype.platform.model.orgchart.User;
 import com.inesafujitsu.prototype.platform.persist.mapper.abs.AbstractMapper;
 import org.apache.ibatis.annotations.Param;
 

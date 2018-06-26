@@ -1,6 +1,7 @@
-package com.inesafujitsu.prototype.platform.service;
+package com.inesafujitsu.prototype.platform.service.orgchart;
 
-import com.inesafujitsu.prototype.platform.model.User;
+import com.inesafujitsu.prototype.platform.model.orgchart.User;
+import com.inesafujitsu.prototype.platform.service.IService;
 
 import java.util.List;
 import java.util.Map;

@@ -1,16 +1,16 @@
-package com.inesafujitsu.prototype.platform.service.impl;
+package com.inesafujitsu.prototype.platform.service.orgchart.impl;
 
 import com.inesafujitsu.prototype.platform.commons.exception.EntityNotPersistedException;
 import com.inesafujitsu.prototype.platform.commons.exception.EntityPersistedException;
 import com.inesafujitsu.prototype.platform.commons.exception.EntityRemoveNotAllowedException;
 import com.inesafujitsu.prototype.platform.commons.support.IdGenerator;
 import com.inesafujitsu.prototype.platform.commons.support.StringUtils;
-import com.inesafujitsu.prototype.platform.model.Org;
-import com.inesafujitsu.prototype.platform.persist.mapper.OrgMapper;
-import com.inesafujitsu.prototype.platform.persist.mapper.OrgTypeMapper;
+import com.inesafujitsu.prototype.platform.model.orgchart.Org;
 import com.inesafujitsu.prototype.platform.persist.mapper.abs.AbstractMapper;
+import com.inesafujitsu.prototype.platform.persist.mapper.orgchart.OrgMapper;
+import com.inesafujitsu.prototype.platform.persist.mapper.orgchart.OrgTypeMapper;
 import com.inesafujitsu.prototype.platform.service.AbstractService;
-import com.inesafujitsu.prototype.platform.service.OrgService;
+import com.inesafujitsu.prototype.platform.service.orgchart.OrgService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -27,6 +27,12 @@ public class OrgServiceImpl extends AbstractService<Org> implements OrgService {
     @Override
     protected AbstractMapper<Org> getMapper() {
         return orgMapper;
+    }
+
+    @Override
+    public List<Org> getAll() {
+        Org.Type topOrgType = orgTypeMapper.getTop();
+        return orgMapper.getAll(topOrgType != null ? topOrgType.getCode() : "C");
     }
 
     @Override

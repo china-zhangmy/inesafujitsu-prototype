@@ -1,17 +1,17 @@
-package com.inesafujitsu.prototype.platform.service.impl;
+package com.inesafujitsu.prototype.platform.service.orgchart.impl;
 
 import com.inesafujitsu.prototype.platform.commons.exception.EntityNotPersistedException;
 import com.inesafujitsu.prototype.platform.commons.support.IdGenerator;
 import com.inesafujitsu.prototype.platform.commons.support.StringUtils;
-import com.inesafujitsu.prototype.platform.model.Org;
-import com.inesafujitsu.prototype.platform.model.User;
-import com.inesafujitsu.prototype.platform.model.UserGroup;
-import com.inesafujitsu.prototype.platform.persist.mapper.OrgMapper;
-import com.inesafujitsu.prototype.platform.persist.mapper.UserMapper;
+import com.inesafujitsu.prototype.platform.model.orgchart.Group;
+import com.inesafujitsu.prototype.platform.model.orgchart.Org;
+import com.inesafujitsu.prototype.platform.model.orgchart.User;
 import com.inesafujitsu.prototype.platform.persist.mapper.abs.AbstractMapper;
+import com.inesafujitsu.prototype.platform.persist.mapper.orgchart.OrgMapper;
+import com.inesafujitsu.prototype.platform.persist.mapper.orgchart.UserMapper;
 import com.inesafujitsu.prototype.platform.service.AbstractService;
-import com.inesafujitsu.prototype.platform.service.UserGroupService;
-import com.inesafujitsu.prototype.platform.service.UserService;
+import com.inesafujitsu.prototype.platform.service.orgchart.GroupService;
+import com.inesafujitsu.prototype.platform.service.orgchart.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collections;
@@ -28,7 +28,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
     private OrgMapper orgMapper;
 
     @Autowired
-    private UserGroupService userGroupService;
+    private GroupService groupService;
 
     @Override
     protected AbstractMapper<User> getMapper() {
@@ -83,7 +83,7 @@ public class UserServiceImpl extends AbstractService<User> implements UserServic
             throw new EntityNotPersistedException("Organization", orgUri);
         }
 
-        UserGroup group = userGroupService.getOne(groupId);
+        Group group = groupService.getOne(groupId);
         if (StringUtils.isNotBlank(groupId) && group == null) {
             throw new EntityNotPersistedException("Group", groupId);
         }

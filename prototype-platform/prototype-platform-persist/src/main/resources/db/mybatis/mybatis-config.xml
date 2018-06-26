@@ -11,7 +11,6 @@
     </settings>
 
     <typeAliases>
-        <typeAlias type="com.inesafujitsu.prototype.platform.model.Org$Type" alias="OrgType"/>
         <package name="com.inesafujitsu.prototype.platform.model"/>
         <package name="com.inesafujitsu.prototype.platform.persist.mapper.typehandler"/>
     </typeAliases>

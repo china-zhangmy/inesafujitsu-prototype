@@ -1,26 +1,26 @@
-package com.inesafujitsu.prototype.platform.service.impl;
+package com.inesafujitsu.prototype.platform.service.orgchart.impl;
 
 import com.inesafujitsu.prototype.platform.commons.exception.EntityNotPersistedException;
 import com.inesafujitsu.prototype.platform.commons.support.IdGenerator;
 import com.inesafujitsu.prototype.platform.commons.support.StringUtils;
-import com.inesafujitsu.prototype.platform.model.Org;
-import com.inesafujitsu.prototype.platform.model.UserGroup;
-import com.inesafujitsu.prototype.platform.persist.mapper.OrgMapper;
-import com.inesafujitsu.prototype.platform.persist.mapper.UserGroupMapper;
+import com.inesafujitsu.prototype.platform.model.orgchart.Group;
+import com.inesafujitsu.prototype.platform.model.orgchart.Org;
 import com.inesafujitsu.prototype.platform.persist.mapper.abs.AbstractMapper;
+import com.inesafujitsu.prototype.platform.persist.mapper.orgchart.GroupMapper;
+import com.inesafujitsu.prototype.platform.persist.mapper.orgchart.OrgMapper;
 import com.inesafujitsu.prototype.platform.service.AbstractService;
-import com.inesafujitsu.prototype.platform.service.UserGroupService;
-import com.inesafujitsu.prototype.platform.service.UserService;
+import com.inesafujitsu.prototype.platform.service.orgchart.GroupService;
+import com.inesafujitsu.prototype.platform.service.orgchart.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UserGroupServiceImpl extends AbstractService<UserGroup> implements UserGroupService {
+public class GroupServiceImpl extends AbstractService<Group> implements GroupService {
 
     @Autowired
-    private UserGroupMapper userGroupMapper;
+    private GroupMapper groupMapper;
 
     @Autowired
     private OrgMapper orgMapper;
@@ -29,37 +29,37 @@ public class UserGroupServiceImpl extends AbstractService<UserGroup> implements 
     private UserService userService;
 
     @Override
-    protected AbstractMapper<UserGroup> getMapper() {
-        return userGroupMapper;
+    protected AbstractMapper<Group> getMapper() {
+        return groupMapper;
     }
 
     @Override
-    public List<UserGroup> getAll(String orgUri) {
-        return userGroupMapper.getAll(orgUri);
+    public List<Group> getAll(String orgUri) {
+        return groupMapper.getAll(orgUri);
     }
 
     @Override
-    public UserGroup create(String orgUri, Map<String, Object> args) {
+    public Group create(String orgUri, Map<String, Object> args) {
         String id = IdGenerator.generateId();
 
         args = extractAndValidate(orgUri, args);
         args.put("id", id);
-        UserGroup userGroup = new UserGroup.Builder(args).build();
+        Group group = new Group.Builder(args).build();
 
-        insert(userGroup);
+        insert(group);
 
         return getOne(id);
     }
 
     @Override
-    public UserGroup update(String orgUri, String id, Map<String, Object> args) {
+    public Group update(String orgUri, String id, Map<String, Object> args) {
         args = extractAndValidate(orgUri, args);
         args.put("id", id);
-        UserGroup userGroup = new UserGroup.Builder(args).build();
-        UserGroup sourceUserGroup = getOne(id);
-        String sourceOrgUri = sourceUserGroup.getOrg().getUri();
+        Group group = new Group.Builder(args).build();
+        Group sourceGroup = getOne(id);
+        String sourceOrgUri = sourceGroup.getOrg().getUri();
 
-        update(userGroup);
+        update(group);
 
         if (!orgUri.equals(sourceOrgUri)) {
             batchMoveCascade(sourceOrgUri, id, orgUri);

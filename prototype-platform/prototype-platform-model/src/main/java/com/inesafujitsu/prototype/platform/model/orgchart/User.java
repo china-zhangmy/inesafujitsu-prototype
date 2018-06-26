@@ -1,4 +1,4 @@
-package com.inesafujitsu.prototype.platform.model;
+package com.inesafujitsu.prototype.platform.model.orgchart;
 
 import com.inesafujitsu.prototype.platform.commons.model.Entity;
 
@@ -14,7 +14,7 @@ public class User extends Entity {
     private Gender gender;
 
     private Org org;
-    private UserGroup group;
+    private Group group;
     private User superior;
 
     public String getName() {
@@ -65,11 +65,11 @@ public class User extends Entity {
         this.org = org;
     }
 
-    public UserGroup getGroup() {
+    public Group getGroup() {
         return group;
     }
 
-    public void setGroup(UserGroup group) {
+    public void setGroup(Group group) {
         this.group = group;
     }
 
@@ -97,7 +97,7 @@ public class User extends Entity {
             user.setEmail((String) args.get("email"));
             user.setGender(Gender.get(String.valueOf(args.get("gender"))));
             user.setOrg((Org) args.get("org"));
-            user.setGroup((UserGroup) args.get("group"));
+            user.setGroup((Group) args.get("group"));
             user.setSuperior((User) args.get("superior"));
 
             return user;

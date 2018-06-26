@@ -1,4 +1,4 @@
-package com.inesafujitsu.prototype.platform.model;
+package com.inesafujitsu.prototype.platform.model.orgchart;
 
 import com.inesafujitsu.prototype.platform.commons.model.Entity;
 
@@ -16,6 +16,7 @@ public class Org extends Entity {
 
     private Org parent;
     private List<Org> children = new ArrayList<>();
+    private List<Group> groups = new ArrayList<>();
     private List<User> users = new ArrayList<>();
 
     public String getName() {
@@ -72,6 +73,14 @@ public class Org extends Entity {
 
     public void setChildren(List<Org> children) {
         this.children = children;
+    }
+
+    public List<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
     }
 
     public List<User> getUsers() {

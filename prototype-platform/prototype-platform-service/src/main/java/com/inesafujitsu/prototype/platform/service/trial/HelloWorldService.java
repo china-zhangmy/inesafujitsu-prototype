@@ -1,4 +1,4 @@
-package com.inesafujitsu.prototype.platform.service;
+package com.inesafujitsu.prototype.platform.service.trial;
 
 public interface HelloWorldService {
 

@@ -1,6 +1,6 @@
-package com.inesafujitsu.prototype.platform.persist.mapper;
+package com.inesafujitsu.prototype.platform.persist.mapper.orgchart;
 
-import com.inesafujitsu.prototype.platform.model.Org;
+import com.inesafujitsu.prototype.platform.model.orgchart.Org;
 import com.inesafujitsu.prototype.platform.persist.mapper.abs.AbstractMapper;
 
 public interface OrgTypeMapper extends AbstractMapper<Org.Type> {

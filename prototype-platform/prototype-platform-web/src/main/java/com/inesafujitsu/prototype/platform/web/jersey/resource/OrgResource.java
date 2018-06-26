@@ -1,8 +1,8 @@
 package com.inesafujitsu.prototype.platform.web.jersey.resource;
 
 import com.inesafujitsu.prototype.platform.commons.support.HttpUtils;
-import com.inesafujitsu.prototype.platform.model.Org;
-import com.inesafujitsu.prototype.platform.service.OrgService;
+import com.inesafujitsu.prototype.platform.model.orgchart.Org;
+import com.inesafujitsu.prototype.platform.service.orgchart.OrgService;
 import com.inesafujitsu.prototype.platform.web.jersey.support.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -91,8 +91,8 @@ public class OrgResource {
         }
 
         @Path(Constants.SUB_RESOURCE_LOCATOR_USER_GROUPS)
-        public Class<UserGroupResource> groupResourceLocator() {
-            return UserGroupResource.class;
+        public Class<GroupResource> groupResourceLocator() {
+            return GroupResource.class;
         }
 
     }

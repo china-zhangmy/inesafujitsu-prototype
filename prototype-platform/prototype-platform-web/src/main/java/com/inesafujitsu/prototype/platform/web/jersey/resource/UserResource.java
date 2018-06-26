@@ -1,8 +1,8 @@
 package com.inesafujitsu.prototype.platform.web.jersey.resource;
 
 import com.inesafujitsu.prototype.platform.commons.support.HttpUtils;
-import com.inesafujitsu.prototype.platform.model.User;
-import com.inesafujitsu.prototype.platform.service.UserService;
+import com.inesafujitsu.prototype.platform.model.orgchart.User;
+import com.inesafujitsu.prototype.platform.service.orgchart.UserService;
 import com.inesafujitsu.prototype.platform.web.jersey.support.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
