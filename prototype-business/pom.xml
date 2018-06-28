@@ -4,17 +4,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>prototype</artifactId>
-        <groupId>com.inesafujitsu</groupId>
+        <groupId>com.inesafujitsu.prototype</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
 
+    <groupId>com.inesafujitsu.prototype.business</groupId>
     <artifactId>prototype-business</artifactId>
     <name>Prototype Business POM Module</name>
 
     <properties>
+        <project.platform.groupId>com.inesafujitsu.prototype.platform</project.platform.groupId>
         <project.platform.artifactId>prototype-platform</project.platform.artifactId>
+        <project.platform.version>0.0.1-SNAPSHOT</project.platform.version>
     </properties>
 
     <modules>
@@ -29,9 +32,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>${project.platform.groupId}</groupId>
             <artifactId>${project.platform.artifactId}-commons</artifactId>
-            <version>${project.version}</version>
+            <version>${project.platform.version}</version>
         </dependency>
     </dependencies>
 

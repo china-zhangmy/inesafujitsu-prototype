@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>prototype-business</artifactId>
-        <groupId>com.inesafujitsu</groupId>
+        <groupId>com.inesafujitsu.prototype.business</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -22,9 +22,9 @@
         </dependency>
 
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>${project.platform.groupId}</groupId>
             <artifactId>${project.platform.artifactId}-service</artifactId>
-            <version>${project.version}</version>
+            <version>${project.platform.version}</version>
         </dependency>
     </dependencies>
 
