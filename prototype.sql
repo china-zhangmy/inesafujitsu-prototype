@@ -12,6 +12,8 @@
 
 SET FOREIGN_KEY_CHECKS=0;
 
+DROP DATABASE IF EXISTS `prototype`;
+
 CREATE DATABASE `prototype`
     CHARACTER SET 'utf8mb4'
     COLLATE 'utf8mb4_0900_ai_ci';
@@ -21,16 +23,16 @@ USE `prototype`;
 /* Structure for the `biz_mask` table : */
 
 CREATE TABLE `biz_mask` (
-  `id` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `name` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `id` CHAR(32) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `name` VARCHAR(20) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `curr_idx` INTEGER(11) DEFAULT NULL,
   `create_date` DATETIME DEFAULT NULL,
-  `create_user` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `create_user` VARCHAR(20) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `update_date` DATETIME DEFAULT NULL,
-  `update_user` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `update_user` VARCHAR(20) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `lock_date` DATETIME DEFAULT NULL,
-  `lock_user` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `transport_box_rf_id` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `lock_user` VARCHAR(20) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `transport_box_rf_id` CHAR(32) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY USING BTREE (`id`)
 ) ENGINE=InnoDB
 ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
@@ -39,13 +41,12 @@ ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
 /* Structure for the `biz_mask_h` table : */
 
 CREATE TABLE `biz_mask_h` (
-  `id` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `master_id` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `id` CHAR(32) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `master_id` CHAR(32) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `idx` INTEGER(11) DEFAULT NULL,
   `create_date` DATETIME DEFAULT NULL,
-  `create_user` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `create_user` CHAR(20) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `note` VARCHAR(200) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `h_maskcol` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY USING BTREE (`id`)
 ) ENGINE=InnoDB
 ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
@@ -55,9 +56,9 @@ ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
 
 CREATE TABLE `biz_relation` (
   `x_table_name` VARCHAR(20) COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `x_id` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `x_id` CHAR(32) COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `y_table_name` VARCHAR(20) COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `y_id` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `y_id` CHAR(32) COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY USING BTREE (`x_table_name`, `x_id`, `y_table_name`, `y_id`)
 ) ENGINE=InnoDB
 ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
@@ -66,16 +67,16 @@ ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
 /* Structure for the `biz_transport_box` table : */
 
 CREATE TABLE `biz_transport_box` (
-  `id` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `name` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `id` CHAR(32) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `name` VARCHAR(20) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `curr_idx` INTEGER(11) DEFAULT NULL,
   `create_date` DATETIME DEFAULT NULL,
-  `create_user` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `create_user` VARCHAR(20) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `update_date` DATETIME DEFAULT NULL,
-  `update_user` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `update_user` VARCHAR(20) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `lock_date` DATETIME DEFAULT NULL,
-  `lock_user` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `rf_id` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `lock_user` VARCHAR(20) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `rf_id` CHAR(32) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY USING BTREE (`id`)
 ) ENGINE=InnoDB
 ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
@@ -84,11 +85,11 @@ ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
 /* Structure for the `biz_transport_box_h` table : */
 
 CREATE TABLE `biz_transport_box_h` (
-  `id` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `master_id` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `id` CHAR(32) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `master_id` CHAR(32) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `idx` INTEGER(11) DEFAULT NULL,
   `create_date` DATETIME DEFAULT NULL,
-  `create_user` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `create_user` VARCHAR(20) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `note` VARCHAR(200) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY USING BTREE (`id`)
 ) ENGINE=InnoDB
@@ -131,10 +132,10 @@ ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
 /* Structure for the `def_component` table : */
 
 CREATE TABLE `def_component` (
-  `id` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `name` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `component_id` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `label` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `id` CHAR(32) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `name` VARCHAR(20) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `component_id` CHAR(32) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `label` VARCHAR(20) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `title` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `width` TINYINT(4) DEFAULT NULL,
   `height` TINYINT(4) DEFAULT NULL,
@@ -149,11 +150,11 @@ ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
 /* Structure for the `def_form` table : */
 
 CREATE TABLE `def_form` (
-  `id` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `name` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `form_id` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `id` CHAR(32) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `name` VARCHAR(20) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `form_id` CHAR(32) COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `comment` VARCHAR(200) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `visible` TINYINT(4) NOT NULL,
+  `visible` TINYINT(1) NOT NULL,
   PRIMARY KEY USING BTREE (`id`),
   UNIQUE KEY `UK_FORM_ID` USING BTREE (`form_id`)
 ) ENGINE=InnoDB
@@ -163,15 +164,13 @@ ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
 /* Structure for the `def_ref_form_component` table : */
 
 CREATE TABLE `def_ref_form_component` (
-  `form_id` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `component_id` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `form_id` CHAR(32) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `component_id` CHAR(32) COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `index` TINYINT(2) NOT NULL,
   `visible` TINYINT(1) DEFAULT NULL,
   PRIMARY KEY USING BTREE (`form_id`, `component_id`, `index`),
   KEY `idx_by_fk_component_id` USING BTREE (`component_id`),
-  KEY `idx_by_fk_form_id` USING BTREE (`form_id`),
-  CONSTRAINT `fk_component_id` FOREIGN KEY (`component_id`) REFERENCES `def_component` (`component_id`),
-  CONSTRAINT `fk_form_id` FOREIGN KEY (`form_id`) REFERENCES `def_form` (`form_id`)
+  KEY `idx_by_fk_form_id` USING BTREE (`form_id`)
 ) ENGINE=InnoDB
 ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
 ;
@@ -179,11 +178,11 @@ ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
 /* Structure for the `sys_org` table : */
 
 CREATE TABLE `sys_org` (
-  `id` VARCHAR(32) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `id` CHAR(32) COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `name` VARCHAR(20) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `descr` VARCHAR(50) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `descr` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `type_code` VARCHAR(3) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `parent_id` VARCHAR(32) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `parent_id` CHAR(32) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `level` TINYINT(4) DEFAULT NULL,
   `uri` VARCHAR(200) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY USING BTREE (`id`)
@@ -195,9 +194,21 @@ ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
 
 CREATE TABLE `sys_org_type` (
   `code` VARCHAR(3) COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `descr` VARCHAR(20) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `descr` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `parent_code` VARCHAR(3) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `invalid` TINYINT(4) DEFAULT NULL,
+  `invalid` TINYINT(1) DEFAULT NULL,
+  PRIMARY KEY USING BTREE (`code`)
+) ENGINE=InnoDB
+ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
+;
+
+/* Structure for the `sys_privilege` table : */
+
+CREATE TABLE `sys_privilege` (
+  `code` VARCHAR(20) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `descr` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `type_code` VARCHAR(3) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `composite_codes` VARCHAR(500) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY USING BTREE (`code`)
 ) ENGINE=InnoDB
 ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
@@ -207,17 +218,28 @@ ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
 
 CREATE TABLE `sys_user` (
   `id` CHAR(32) COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'User ID',
-  `name` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'User Name',
+  `name` VARCHAR(20) COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'User Name',
   `age` INTEGER(3) DEFAULT NULL COMMENT 'User Age',
   `email` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'User Email(unique)',
   `gender` VARCHAR(3) COLLATE utf8mb4_0900_ai_ci DEFAULT '1' COMMENT 'User Gender(M: male; F: female)',
-  `password` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `password` VARCHAR(20) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `org_uri` VARCHAR(200) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `type_code` VARCHAR(3) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `group_id` CHAR(32) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `descr` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `superior_id` CHAR(32) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY USING BTREE (`id`),
   UNIQUE KEY `UK_EMAIL` USING BTREE (`email`)
+) ENGINE=InnoDB
+ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
+;
+
+/* Structure for the `sys_user_group` table : */
+
+CREATE TABLE `sys_user_group` (
+  `id` CHAR(32) COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `name` VARCHAR(20) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `descr` VARCHAR(45) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `org_uri` VARCHAR(200) COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  PRIMARY KEY USING BTREE (`id`)
 ) ENGINE=InnoDB
 ROW_FORMAT=DYNAMIC CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_0900_ai_ci'
 ;
@@ -244,21 +266,21 @@ COMMIT;
 
 /* Data for the `biz_mask_h` table  (LIMIT 0,500) */
 
-INSERT INTO `biz_mask_h` (`id`, `master_id`, `idx`, `create_date`, `create_user`, `note`, `h_maskcol`) VALUES
-  ('234','123',1,NULL,NULL,NULL,NULL),
-  ('32ce3bc4879647d0a13039f4a77a3677','72f976d232904f918e06518669729d3d',1,'2018-05-31 18:29:02','dummy_create_user',NULL,NULL),
-  ('345','123',2,NULL,NULL,NULL,NULL),
-  ('39cd708ad5834d62a69faa12f265287a','26bc3f7a486d4353a69547e3e414defe',1,'2018-05-31 15:37:39','dummy_create_user',NULL,NULL),
-  ('5f273c8dfea14e939c385b19c50ca473','f56f744b35584a7c887a5fc46db00d74',1,'2018-05-31 15:33:37','dummy_create_user',NULL,NULL),
-  ('699d437ad0864a58b425c42dcae4f02b','39bec0aefee44b3fb9458fed48ef6c32',2,'2018-06-01 17:36:13','dummy_update_user','Update',NULL),
-  ('78b974cd65f941fa98861bd7076a64cd','02c9cfd0d4054b6f8524e2ee683140fa',1,'2018-05-29 18:33:25','dummy_create_user',NULL,NULL),
-  ('a7a4a0a8ac694a3bb70293342929cbac','39bec0aefee44b3fb9458fed48ef6c32',1,'2018-05-29 17:51:32','dummy_create_user',NULL,NULL),
-  ('be6baa7fd825425d90d1615120e1547a','39bec0aefee44b3fb9458fed48ef6c32',3,'2018-06-01 18:00:21','dummy_update_user','Update',NULL),
-  ('dbcfd298dca44e23b180505f0760cb04','3d1ece9d06dd49839cd02b7f398b2cbb',1,'2018-05-31 18:28:30','dummy_create_user',NULL,NULL),
-  ('dcb9c7f06f114601a3ef4a442862e21e','39bec0aefee44b3fb9458fed48ef6c32',2,'2018-06-01 17:41:22','dummy_update_user','Update',NULL),
-  ('dd9768fdcfdf467b948456565283cfa0','68c2002fb8b048c08ff23774ebc157fc',1,'2018-05-31 15:40:04','dummy_create_user',NULL,NULL),
-  ('e00c4bf09939492082617010247d1aff','b7626b817c464c7b85afe97aff45633a',1,'2018-05-31 16:38:59','dummy_create_user',NULL,NULL),
-  ('fb0ee3e74f54450faa7d3f72a84f8504','feb23e65b19149c8a98a032ba62ffe8f',1,'2018-06-01 18:05:50','dummy_create_user','Create',NULL);
+INSERT INTO `biz_mask_h` (`id`, `master_id`, `idx`, `create_date`, `create_user`, `note`) VALUES
+  ('234','123',1,NULL,NULL,NULL),
+  ('32ce3bc4879647d0a13039f4a77a3677','72f976d232904f918e06518669729d3d',1,'2018-05-31 18:29:02','dummy_create_user',NULL),
+  ('345','123',2,NULL,NULL,NULL),
+  ('39cd708ad5834d62a69faa12f265287a','26bc3f7a486d4353a69547e3e414defe',1,'2018-05-31 15:37:39','dummy_create_user',NULL),
+  ('5f273c8dfea14e939c385b19c50ca473','f56f744b35584a7c887a5fc46db00d74',1,'2018-05-31 15:33:37','dummy_create_user',NULL),
+  ('699d437ad0864a58b425c42dcae4f02b','39bec0aefee44b3fb9458fed48ef6c32',2,'2018-06-01 17:36:13','dummy_update_user','Update'),
+  ('78b974cd65f941fa98861bd7076a64cd','02c9cfd0d4054b6f8524e2ee683140fa',1,'2018-05-29 18:33:25','dummy_create_user',NULL),
+  ('a7a4a0a8ac694a3bb70293342929cbac','39bec0aefee44b3fb9458fed48ef6c32',1,'2018-05-29 17:51:32','dummy_create_user',NULL),
+  ('be6baa7fd825425d90d1615120e1547a','39bec0aefee44b3fb9458fed48ef6c32',3,'2018-06-01 18:00:21','dummy_update_user','Update'),
+  ('dbcfd298dca44e23b180505f0760cb04','3d1ece9d06dd49839cd02b7f398b2cbb',1,'2018-05-31 18:28:30','dummy_create_user',NULL),
+  ('dcb9c7f06f114601a3ef4a442862e21e','39bec0aefee44b3fb9458fed48ef6c32',2,'2018-06-01 17:41:22','dummy_update_user','Update'),
+  ('dd9768fdcfdf467b948456565283cfa0','68c2002fb8b048c08ff23774ebc157fc',1,'2018-05-31 15:40:04','dummy_create_user',NULL),
+  ('e00c4bf09939492082617010247d1aff','b7626b817c464c7b85afe97aff45633a',1,'2018-05-31 16:38:59','dummy_create_user',NULL),
+  ('fb0ee3e74f54450faa7d3f72a84f8504','feb23e65b19149c8a98a032ba62ffe8f',1,'2018-06-01 18:05:50','dummy_create_user','Create');
 COMMIT;
 
 /* Data for the `biz_transport_box` table  (LIMIT 0,500) */
@@ -296,13 +318,26 @@ INSERT INTO `sys_org_type` (`code`, `descr`, `parent_code`, `invalid`) VALUES
   ('G','Group','D',NULL);
 COMMIT;
 
+/* Data for the `sys_privilege` table  (LIMIT 0,500) */
+
+INSERT INTO `sys_privilege` (`code`, `descr`, `type_code`, `composite_codes`) VALUES
+  ('PRIVILEGE_001','This is the 1st trial privilege','P',NULL),
+  ('PRIVILEGE_002','This is the 2nd trial privilege','P',NULL),
+  ('PRIVILEGE_GROUP_001','A privilege group tester','PG',',PRIVILEGE_002,PRIVILEGE_001,');
+COMMIT;
+
 /* Data for the `sys_user` table  (LIMIT 0,500) */
 
-INSERT INTO `sys_user` (`id`, `name`, `age`, `email`, `gender`, `password`, `org_uri`, `type_code`, `group_id`, `descr`) VALUES
-  ('53f470d9f3914e5891ac97f98022499e','User Y',19,'user-y@inesa-f.com','F','PwdXXX19','eb1ddf3d125640968828034563a006d6','U','7ae82e0b502b4d5a989610ef470b14a1',NULL),
-  ('688f430710c042eeb44d01224af9c502','User A',21,'user-a@inesa.com','F','PwdYYY','eb1ddf3d125640968828034563a006d6','U',NULL,NULL),
-  ('7ae82e0b502b4d5a989610ef470b14a1','Group A',NULL,NULL,NULL,NULL,'eb1ddf3d125640968828034563a006d6','G',NULL,'The first Group'),
-  ('b84aaab7eb114773bae47b20b375d28b','User X',18,'user-x@inesa-f.com','M','PwdXXX','eb1ddf3d125640968828034563a006d6','U','7ae82e0b502b4d5a989610ef470b14a1',NULL);
+INSERT INTO `sys_user` (`id`, `name`, `age`, `email`, `gender`, `password`, `org_uri`, `group_id`, `superior_id`) VALUES
+  ('78142b89a6d446078a728def760c028e','UserA',23,'user-a@inesa.com','F','PwdA','eb1ddf3d125640968828034563a006d6/89fc02ca754244418693b9ebb35cf7bf','e9549c5068e54f78a9ddc4dd5e37f1f4',NULL),
+  ('ec5e58a0960f49c8bf6c261e4266eaf1','UserB',21,'user.b@inesa.com','M','PwdB','eb1ddf3d125640968828034563a006d6/89fc02ca754244418693b9ebb35cf7bf','e9549c5068e54f78a9ddc4dd5e37f1f4','78142b89a6d446078a728def760c028e');
+COMMIT;
+
+/* Data for the `sys_user_group` table  (LIMIT 0,500) */
+
+INSERT INTO `sys_user_group` (`id`, `name`, `descr`, `org_uri`) VALUES
+  ('7f33cb6a92e94bd6934ce9464b722768','GroupB','Group B','eb1ddf3d125640968828034563a006d6'),
+  ('e9549c5068e54f78a9ddc4dd5e37f1f4','GroupA','Group A(Updated)','eb1ddf3d125640968828034563a006d6/89fc02ca754244418693b9ebb35cf7bf');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
